@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
+import 'package:gripngrab/otp.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Login App',
       theme: ThemeData(
-        fontFamily: 'Montserrat',
         primarySwatch:  buildMaterialColor(const Color(0xFFBACBD3)),
        
       ),
