@@ -1,38 +1,37 @@
-import 'package:flutter/material.dart';
+// import 'dart:async';
+// import 'dart:js';
 
-import 'main.dart';
+// import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 200.0,
-              height: 200.0,
-              child: Image.asset('assets/images/G.png'),
-            ),
-            Text('Welcome to the home page'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
-              },
-              child: Text('Go to Login Page'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// import 'main.dart';
+
+// class HomePage extends StatelessWidget {
+//   @override
+//   void initState() {
+//     super.initState();
+//     Timer(Duration(seconds: 2), () {
+//       Navigator.pushReplacementNamed(
+//           context as BuildContext, const LoginPage() as String);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Home Page'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             FittedBox(
+//               child: Image.asset('assets/vids/final_intro.gif'),
+//               fit: BoxFit.fill,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
