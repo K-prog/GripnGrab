@@ -56,6 +56,8 @@ class LoginPage extends StatelessWidget {
                         labelStyle: TextStyle(
                             color: Colors.white), //Setting the text color
                         enabledBorder: OutlineInputBorder(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8.0)),
                           borderSide: BorderSide(
                             width: 2,
                             color: Colors.white,
@@ -73,16 +75,18 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => OtpPage(),
-                          //   ),
-                          // ); //Printing the mobile number
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyVerify(),
+                            ),
+                          ); //Printing the mobile number
+                          // Navigator.pushNamed(context, 'otp');
                         }
                       },
                       child: const Text(
-                        'Get OTP', style: TextStyle(
+                        'Get OTP',
+                        style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w700,
                             fontSize: 20),
