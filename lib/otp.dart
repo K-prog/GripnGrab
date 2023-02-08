@@ -1,16 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+
+import 'gender.dart';
 import 'login_page.dart';
 
-class MyVerify extends StatefulWidget {
-  const MyVerify({Key? key}) : super(key: key);
-
+class OtpPage extends StatefulWidget {
   @override
-  State<MyVerify> createState() => _MyVerifyState();
+  _OtpPageState createState() => _OtpPageState();
 }
 
-class _MyVerifyState extends State<MyVerify> {
+
+class _OtpPageState extends State<OtpPage> {
+  final otpKey = GlobalKey<FormState>();
+  late String _otp;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -36,7 +40,7 @@ class _MyVerifyState extends State<MyVerify> {
         color: Color.fromRGBO(234, 239, 243, 1),
       ),
     );
-
+    var code = "";
     return Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
       appBar: null,
@@ -73,6 +77,9 @@ class _MyVerifyState extends State<MyVerify> {
               ),
               Pinput(
                 length: 6,
+                onChanged: (value) {
+                  code = value;
+                },
                 // defaultPinTheme: defaultPinTheme,
                 // focusedPinTheme: focusedPinTheme,
                 // submittedPinTheme: submittedPinTheme,
@@ -90,7 +97,23 @@ class _MyVerifyState extends State<MyVerify> {
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                                verificationId: LoginPage.verify,
+                                smsCode: code);
+
+                        // Sign the user in (or link) with the credential
+                        await auth.signInWithCredential(credential);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GenderPage(),
+                        ),
+                      );
+                      } catch (e) {}
+                    },
                     child: Text("Verify Phone Number")),
               ),
               Row(

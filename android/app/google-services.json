@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "726225777262",
-    "project_id": "temp-7d559",
-    "storage_bucket": "temp-7d559.appspot.com"
+    "project_number": "152880036058",
+    "project_id": "gripngrab-7bd56",
+    "storage_bucket": "gripngrab-7bd56.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:726225777262:android:f121f2128198a8e0e9ac7f",
+        "mobilesdk_app_id": "1:152880036058:android:861d56b6d20e0bfdcb8de3",
         "android_client_info": {
           "package_name": "com.example.gripngrab"
         }
       },
       "oauth_client": [
         {
-          "client_id": "726225777262-loluc0le60lttgmup4mobh6f7fof8eok.apps.googleusercontent.com",
+          "client_id": "152880036058-df2v80ilqc7cnq8kt9e3m8082i89p6lm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDO16RzfMn76e24s2RInDm90zhqFvC0aCc"
+          "current_key": "AIzaSyAXKOKgO_AFcYBEm6oxMiiloJTl0zKaYmg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "726225777262-loluc0le60lttgmup4mobh6f7fof8eok.apps.googleusercontent.com",
+              "client_id": "152880036058-df2v80ilqc7cnq8kt9e3m8082i89p6lm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

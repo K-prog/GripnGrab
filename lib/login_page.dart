@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'otp.dart';
@@ -6,11 +9,14 @@ import 'otp.dart';
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   String? mobile_number = ""; //Defining the variable
-
+  var phone = "";
+  static String verify = "";
   LoginPage({super.key});
-
+  final TextEditingController phone_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    phone_controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: phone_controller.text.length));
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: null, //Removing the appbar
@@ -35,10 +41,11 @@ class LoginPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(20.0),
                     child: TextFormField(
+                      onChanged: (value) => phone = value,
                       style: TextStyle(
-                          color: Colors.white), //Setting the text color
+                          color: Colors.white),
                       keyboardType:
-                          TextInputType.number, //Defining the keyboard type
+                          TextInputType.phone, //Defining the keyboard type
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(
                             r'[0-9]')), //Defining the input format, i.e. only numbers
@@ -64,23 +71,38 @@ class LoginPage extends StatelessWidget {
                           ), //Setting the border color
                         ),
                       ),
-                      obscureText: true,
                     ),
                   ),
+                  // ScaffoldMessenger.of(phone).showSnackBar(
+                  //   const SnackBar(
+                  //     content: Text(phone),
+                  //   ),
+                  // ),
                   const SizedBox(height: 20),
                   SizedBox(
                     width: 150,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await FirebaseAuth.instance.verifyPhoneNumber(
+                          phoneNumber: '${'+91' + phone}',
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) {},
+                          verificationFailed: (FirebaseAuthException e) {},
+                          codeSent: (String verificationId, int? resendToken) {
+                            LoginPage.verify = verificationId;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OtpPage(),
+                          ),
+                        );
+                          },
+                          codeAutoRetrievalTimeout: (String verificationId) {},
+                        );
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyVerify(),
-                            ),
-                          ); //Printing the mobile number
+                          ; //Printing the mobile number
                           // Navigator.pushNamed(context, 'otp');
                         }
                       },
