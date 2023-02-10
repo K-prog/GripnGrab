@@ -1,0 +1,15 @@
+ child: CupertinoTheme(
+            data: CupertinoThemeData(
+              textTheme: CupertinoTextThemeData(
+                dateTimePickerTextStyle: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: DateTime(1969, 1, 1),
+                  onDateTimeChanged: (DateTime newDateTime) {
+                  },
+                ),
+              ),

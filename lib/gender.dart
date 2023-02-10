@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gripngrab/birth_page.dart';
 
 class GenderPage extends StatefulWidget {
   @override
@@ -51,7 +52,14 @@ class _GenderPageState extends State<GenderPage> {
               height: 50, // <-- SEE HERE
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BirthdatePage(),
+                  ),
+                );
+              },
               child: Icon(
                 //<-- SEE HERE
                 Icons.male,
@@ -67,7 +75,14 @@ class _GenderPageState extends State<GenderPage> {
               height: 50, // <-- SEE HERE
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BirthdatePage(),
+                  ),
+                );
+              },
               child: Icon(
                 //<-- SEE HERE
                 Icons.female,

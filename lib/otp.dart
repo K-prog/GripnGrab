@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
 
 import 'gender.dart';
@@ -112,7 +113,23 @@ class _OtpPageState extends State<OtpPage> {
                           builder: (context) => GenderPage(),
                         ),
                       );
-                      } catch (e) {}
+                      } catch (e) {
+                        // _showFlashMessage(BuildContext context) {
+                          
+                        //   Scaffold.of(context).showSnackBar(
+                        //     SnackBar(
+                        //       content: Text('This is a flash message'),
+                        //       duration: Duration(seconds: 3),
+                        //       action: SnackBarAction(
+                        //         label: 'Dismiss',
+                        //         onPressed: () {
+                        //           Scaffold.of(context).hideCurrentSnackBar();
+                        //         },
+                        //       ),
+                        //     ),
+                        //   );
+                        // }
+                      }
                     },
                     child: Text("Verify Phone Number")),
               ),
@@ -138,5 +155,6 @@ class _OtpPageState extends State<OtpPage> {
         ),
       ),
     );
+    
   }
 }
