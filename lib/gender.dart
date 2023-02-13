@@ -13,7 +13,14 @@ class _GenderPageState extends State<GenderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
-      appBar: null,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const BackButton(
+          color: Color(0xFFBACBD3), // <-- SEE HERE
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

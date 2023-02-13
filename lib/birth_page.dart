@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gripngrab/landing_page.dart';
 import 'package:gripngrab/main.dart';
@@ -14,6 +15,15 @@ class _BirthdatePageState extends State<BirthdatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
+      extendBodyBehindAppBar: false,
+      appBar: null,
+      // AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   leading: const BackButton(
+      //     color: Color(0xFFBACBD3), // <-- SEE HERE
+      //   ),
+      // ),
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -42,75 +52,97 @@ class _BirthdatePageState extends State<BirthdatePage> {
             SizedBox(height: 20),
             Row(
                   children:[
-                    Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: DropdownButton<int>(
-                      hint: Text("Date"),
-                      dropdownColor: Color.fromRGBO(30, 60, 87, 1),
-                      value: selectedDate,
-                      items: List.generate(
-                        31,
-                        (index) => DropdownMenuItem(
-                          child: Text("${index + 1}", style: TextStyle(color: Colors.white),),
-                          value: index + 1,
-                        ),
+            SafeArea(
+              child: Container(
+                height: 200,
+                width: 360,
+                child: CupertinoTheme(
+                  data: CupertinoThemeData(
+                    textTheme: CupertinoTextThemeData(
+                      dateTimePickerTextStyle: TextStyle(
+                        color: Colors.white,
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedDate = value!;
-                        });
-                      },
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: DropdownButton<int>(
-                      hint: Text("Month"),
-                      dropdownColor: Color.fromRGBO(30, 60, 87, 1),
-                      value: selectedMonth,
-                      items: List.generate(
-                        12,
-                        (index) => DropdownMenuItem(
-                          child: Text("${index + 1}",style: TextStyle(color: Colors.white),),
-                          value: index + 1,
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedMonth = value!;
-                        });
-                      },
-                    ),
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.date,
+                    initialDateTime: DateTime(1969, 1, 1),
+                    onDateTimeChanged: (DateTime newDateTime) {
+                    },
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: DropdownButton<int>(
-                      hint: Text("Year"),
-                      dropdownColor: Color.fromRGBO(30, 60, 87, 1),
-                      value: selectedYear,
-                      items: List.generate(
-                        100,
-                        (index) => DropdownMenuItem(
-                          child: Text("${index + 1920}",style: TextStyle(color: Colors.white),),
-                          value: index + 1920,
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedYear = value!;
-                        });
-                      },
-                    ),
+                ),
+              ),
+            
+                  //   Container(
+                  //   width: MediaQuery.of(context).size.width * 0.3,
+                  //   child: DropdownButton<int>(
+                  //     hint: Text("Date"),
+                  //     dropdownColor: Color.fromRGBO(30, 60, 87, 1),
+                  //     value: selectedDate,
+                  //     items: List.generate(
+                  //       31,
+                  //       (index) => DropdownMenuItem(
+                  //         child: Text("${index + 1}", style: TextStyle(color: Colors.white),),
+                  //         value: index + 1,
+                  //       ),
+                  //     ),
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         selectedDate = value!;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width * 0.3,
+                  //   child: DropdownButton<int>(
+                  //     hint: Text("Month"),
+                  //     dropdownColor: Color.fromRGBO(30, 60, 87, 1),
+                  //     value: selectedMonth,
+                  //     items: List.generate(
+                  //       12,
+                  //       (index) => DropdownMenuItem(
+                  //         child: Text("${index + 1}",style: TextStyle(color: Colors.white),),
+                  //         value: index + 1,
+                  //       ),
+                  //     ),
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         selectedMonth = value!;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width * 0.3,
+                  //   child: 
+                  //   DropdownButton<int>(
+                  //     hint: Text("Year"),
+                  //     dropdownColor: Color.fromRGBO(30, 60, 87, 1),
+                  //     value: selectedYear,
+                  //     items: List.generate(
+                  //       100,
+                  //       (index) => DropdownMenuItem(
+                  //         child: Text("${index + 1920}",style: TextStyle(color: Colors.white),),
+                  //         value: index + 1920,
+                  //       ),
+                  //     ),
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         selectedYear = value!;
+                  //       });
+                  //     },
+                  //   ),
                   ),
                   ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => LandingPage(),
-                  ),
-                );
-              }, child: null,
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.push(context,MaterialPageRoute(builder: (context) => LandingPage(),
+            //       ),
+            //     );
+            //   }, child: null, //doubtttttt
+            // ),
           ],
               ),
             ),

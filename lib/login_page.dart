@@ -3,13 +3,14 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gripngrab/gender.dart';
 import 'otp.dart';
 
 // ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   String? mobile_number = ""; //Defining the variable
-  var phone = "";
+  static String phone = "";
   static String verify = "";
   LoginPage({super.key});
   final TextEditingController phone_controller = TextEditingController();
@@ -73,17 +74,19 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // ScaffoldMessenger.of(phone).showSnackBar(
-                  //   const SnackBar(
-                  //     content: Text(phone),
-                  //   ),
-                  // ),
+
                   const SizedBox(height: 20),
                   SizedBox(
                     width: 150,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OtpPage(),
+                          ),
+                        );
                         await FirebaseAuth.instance.verifyPhoneNumber(
                           phoneNumber: '${'+91' + phone}',
                           verificationCompleted:
@@ -91,20 +94,9 @@ class LoginPage extends StatelessWidget {
                           verificationFailed: (FirebaseAuthException e) {},
                           codeSent: (String verificationId, int? resendToken) {
                             LoginPage.verify = verificationId;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OtpPage(),
-                          ),
-                        );
                           },
                           codeAutoRetrievalTimeout: (String verificationId) {},
                         );
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          ; //Printing the mobile number
-                          // Navigator.pushNamed(context, 'otp');
-                        }
                       },
                       child: const Text(
                         'Get OTP',
@@ -120,6 +112,8 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           ),
-        )));
+        )
+        )
+        );
   }
 }
