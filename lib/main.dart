@@ -2,6 +2,10 @@ import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
 
 import 'package:flutter/material.dart';
+import 'package:gripngrab/landing_page.dart';
+import 'package:gripngrab/splash_screen.dart';
+import 'package:provider/provider.dart';
+import 'auth_provider_page.dart';
 import 'login_page.dart';
 import 'package:gripngrab/otp.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,15 +19,19 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+providers: [
+ChangeNotifierProvider (create: (_) => AuthProvider()),],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login App',
       theme: ThemeData(
         primarySwatch:  buildMaterialColor(const Color(0xFFBACBD3)),
        
       ),
-      home: const HomePage(),
-    );
+      home:  SplashScreen(),
+      
+    ),);
   }
   
   MaterialColor buildMaterialColor(Color color) {
@@ -47,40 +55,3 @@ class MyApp extends StatelessWidget {
 }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    // ignore: todo
-    // TODO: implement initState
-    super.initState();
-    Timer(
-        const Duration(milliseconds: 5000),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => LoginPage())));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FittedBox(
-              child: Image.asset('assets/vids/final_intro.gif'),
-              fit: BoxFit.fill,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

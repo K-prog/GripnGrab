@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:gripngrab/gender.dart';
 class MorningSessionPage extends StatefulWidget {

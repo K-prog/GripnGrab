@@ -51,28 +51,27 @@ class _BirthdatePageState extends State<BirthdatePage> {
             ),
             SizedBox(height: 20),
             Row(
-                  children:[
-            SafeArea(
-              child: Container(
-                height: 200,
-                width: 360,
-                child: CupertinoTheme(
-                  data: CupertinoThemeData(
-                    textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: TextStyle(
-                        color: Colors.white,
+              children: [
+                SafeArea(
+                  child: Container(
+                    height: 200,
+                    width: 360,
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.date,
+                        initialDateTime: DateTime(1969, 1, 1),
+                        onDateTimeChanged: (DateTime newDateTime) {},
                       ),
                     ),
                   ),
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.date,
-                    initialDateTime: DateTime(1969, 1, 1),
-                    onDateTimeChanged: (DateTime newDateTime) {
-                    },
-                  ),
-                ),
-              ),
-            
+
                   //   Container(
                   //   width: MediaQuery.of(context).size.width * 0.3,
                   //   child: DropdownButton<int>(
@@ -115,7 +114,7 @@ class _BirthdatePageState extends State<BirthdatePage> {
                   // ),
                   // Container(
                   //   width: MediaQuery.of(context).size.width * 0.3,
-                  //   child: 
+                  //   child:
                   //   DropdownButton<int>(
                   //     hint: Text("Year"),
                   //     dropdownColor: Color.fromRGBO(30, 60, 87, 1),
@@ -133,20 +132,27 @@ class _BirthdatePageState extends State<BirthdatePage> {
                   //       });
                   //     },
                   //   ),
-                  ),
-                  ],
+                ),
+              ],
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(context,MaterialPageRoute(builder: (context) => LandingPage(),
-            //       ),
-            //     );
-            //   }, child: null, //doubtttttt
-            // ),
-          ],
+            ElevatedButton(
+              child: Text(
+                "Next",
+                style: TextStyle(color: Color(0xFF1C1C1E), fontFamily: "Montserrat", fontWeight: FontWeight.w600, fontSize: 15),
               ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LandingPage(),
+                  ),
+                );
+              }, //doubtttttt
             ),
-       );
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -163,7 +169,7 @@ class _BirthdatePageState extends State<BirthdatePage> {
 
 //   @override
 //   Widget build(BuildContext context) {
-    
+
 //     return Scaffold(
 //         backgroundColor: Color(0xFF1C1C1E),
 //         body: Column(
@@ -193,7 +199,7 @@ class _BirthdatePageState extends State<BirthdatePage> {
 //             // SizedBox(height: 20),
 //             // SizedBox(
 //             //   height: 200,
-//             //   child: 
+//             //   child:
 //               CupertinoTheme(
 //         data: CupertinoThemeData(
 //           textTheme: CupertinoTextThemeData(
@@ -216,7 +222,7 @@ class _BirthdatePageState extends State<BirthdatePage> {
 //         ),
 //       ),
 //     ],),
-          
+
 //     );
 //               // CupertinoTheme(
 //               //   data: CupertinoThemeData(
@@ -233,15 +239,12 @@ class _BirthdatePageState extends State<BirthdatePage> {
 //               //   ),
 //               // ),
 
-
 //               // CupertinoDatePicker(
 //               //   mode: CupertinoDatePickerMode.date,
 //               //   initialDateTime: DateTime(1969, 1, 1),
 //               //   onDateTimeChanged: (DateTime newDateTime) {
 //               //   },
 //               // ),
-            
-        
 
 //         //Container(
 //         //   padding: EdgeInsets.all(20),
@@ -318,6 +321,6 @@ class _BirthdatePageState extends State<BirthdatePage> {
 //         //     ],
 //         //   ),
 //         // ),
-        
+
 //   }
 // }

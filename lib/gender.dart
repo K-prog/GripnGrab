@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gripngrab/birth_page.dart';
+import 'package:gripngrab/landing_page.dart';
 
 class GenderPage extends StatefulWidget {
   @override

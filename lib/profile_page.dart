@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
 import 'landing_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,61 +17,75 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
        backgroundColor: Color(0xFF1C1C1E),
       appBar: null,
-        body: Container(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-       
-         child: Column(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(16.0),
-              width: 150.0,
-              height: 150.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage("https://i.pravatar.cc/150?img=7"),
-                  fit: BoxFit.fill,
+          children: [
+            SizedBox(height: 40.0),
+            Text("Profile", style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white)),
+            SizedBox(height: 20.0),
+              Container(
+                height: 120,
+                width: 120,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage("https://i.pravatar.cc/150?img=7"),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.0),
-            InkWell(
-              onTap: () {
-                // Navigate to edit profile page
-              },
-              child: Text(
-                _name,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              SizedBox(height: 20.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                Text("Name : ",
+              style: TextStyle(
+                color: Color(0xFFBACBD3),
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat',
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
-              "Mobile Number: $_mobileNumber",
+            SizedBox(width: 10.0),
+              Text(
+              _name,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.0,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat',
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
-              "Membership Status: $_membershipStatus",
+              ],),
+              SizedBox(height: 20.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                Text("Number : ",
+              style: TextStyle(
+                color: Color(0xFFBACBD3),
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat',
+              ),
+            ),
+            SizedBox(width: 10.0),
+              Text(
+              _mobileNumber,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.0,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat',
               ),
             ),
-          ],
-        ),
-        ),
+            ],
+          ),
+          SizedBox(height: 20.0),
+            ],
       ),
-            bottomNavigationBar: GNav(
+        bottomNavigationBar: GNav(
         gap: 3,
         activeColor: Color(0xFFBACBD3),
         iconSize: 24,
@@ -111,6 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
         selectedIndex: 0,
       ),
-      );
+        
+    );
   }
 }

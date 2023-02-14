@@ -8,6 +8,7 @@ import 'otp.dart';
 
 // ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
+  
   final _formKey = GlobalKey<FormState>();
   String? mobile_number = ""; //Defining the variable
   static String phone = "";

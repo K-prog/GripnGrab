@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gripngrab/birth_page.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
 
@@ -109,21 +110,10 @@ class _OtpPageState extends State<OtpPage> {
                           ),
                         );
                       } catch (e) {
-                        // _showFlashMessage(BuildContext context) {
-
-                        //   Scaffold.of(context).showSnackBar(
-                        //     SnackBar(
-                        //       content: Text('This is a flash message'),
-                        //       duration: Duration(seconds: 3),
-                        //       action: SnackBarAction(
-                        //         label: 'Dismiss',
-                        //         onPressed: () {
-                        //           Scaffold.of(context).hideCurrentSnackBar();
-                        //         },
-                        //       ),
-                        //     ),
-                        //   );
-                        // }
+                        var snackBar =
+                            SnackBar(content: Text('Wrong OTP' , style: TextStyle(fontFamily: 'Montserrat', fontSize: 15,fontWeight: FontWeight.bold )));
+                        // Step 3
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                     child: Text("Verify Phone Number")),
