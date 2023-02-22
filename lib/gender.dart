@@ -5,10 +5,11 @@ import 'package:gripngrab/landing_page.dart';
 class GenderPage extends StatefulWidget {
   @override
   _GenderPageState createState() => _GenderPageState();
+  static String gender = "";
 }
 
 class _GenderPageState extends State<GenderPage> {
-  String gender = "";
+  
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +62,7 @@ class _GenderPageState extends State<GenderPage> {
             ),
             ElevatedButton(
               onPressed: () {
+                GenderPage.gender = "male";
                  Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -84,6 +86,7 @@ class _GenderPageState extends State<GenderPage> {
             ),
             ElevatedButton(
               onPressed: () {
+                GenderPage.gender="female";
                 Navigator.push(
                   context,
                   MaterialPageRoute(

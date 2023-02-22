@@ -4,10 +4,18 @@ import 'package:gripngrab/evening_sessions_page.dart';
 import 'package:gripngrab/gender.dart';
 import 'package:gripngrab/profile_page.dart';
 import 'package:gripngrab/morning_sessions_page.dart';
+import 'package:provider/provider.dart';
+
+import 'auth_provider_page.dart';
 
 class LandingPage extends StatelessWidget {
+    // var _instance = Firestore.instance;
+     
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    Future<Map<String, dynamic>?> gg = ap.getUserData(ap.docId as String);
+    var gg1=gg.toString();
     return Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
       body: Column(
@@ -104,6 +112,7 @@ class LandingPage extends StatelessWidget {
                   SizedBox(height: 12.0),
                   InkWell(
                      onTap: () {
+                      // print(gg!["firstName"]);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

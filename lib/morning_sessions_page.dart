@@ -6,6 +6,29 @@ class MorningSessionPage extends StatefulWidget {
 }
 
 class _MorningSessionPageState extends State<MorningSessionPage> {
+  Future openDialog(String sessionTime) => showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(sessionTime),
+            // content: Text("This slot is already booked"),
+            actions: [
+              ElevatedButton(
+                child: Text("Book a session"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+                 ElevatedButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,12 +91,7 @@ class _MorningSessionPageState extends State<MorningSessionPage> {
           SizedBox(height: 12),
           InkWell(
           onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GenderPage(),
-                ),
-              );
+            openDialog("7:00 A.M. - 8:00 A.M.");
             },
           child: Container(
             padding: EdgeInsets.all(16.0),
@@ -110,12 +128,7 @@ class _MorningSessionPageState extends State<MorningSessionPage> {
           SizedBox(height: 12),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GenderPage(),
-                ),
-              );
+              openDialog("8:00 A.M. - 9:00 A.M.");
             },
             child: Container(
               padding: EdgeInsets.all(16.0),
@@ -153,12 +166,13 @@ class _MorningSessionPageState extends State<MorningSessionPage> {
           SizedBox(height: 12),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GenderPage(),
-                ),
-              );
+              openDialog("9:00 A.M. - 10:00 A.M.");
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => GenderPage(),
+              //   ),
+              // );
             },
             child: Container(
               padding: EdgeInsets.all(16.0),
@@ -196,12 +210,7 @@ class _MorningSessionPageState extends State<MorningSessionPage> {
           SizedBox(height: 12),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GenderPage(),
-                ),
-              );
+              openDialog("10:00 A.M. - 11:00 A.M.");
             },
             child: Container(
               padding: EdgeInsets.all(16.0),
@@ -239,12 +248,7 @@ class _MorningSessionPageState extends State<MorningSessionPage> {
           SizedBox(height: 12),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GenderPage(),
-                ),
-              );
+              openDialog("11:00 A.M. - 12:00 P.M.");
             },
             child: Container(
               padding: EdgeInsets.all(16.0),
@@ -287,5 +291,7 @@ class _MorningSessionPageState extends State<MorningSessionPage> {
         ],
       ),
       );
+      // ignore: dead_code
+      
   }
 }

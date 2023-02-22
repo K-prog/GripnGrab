@@ -7,6 +7,29 @@ class EveningSessionPage extends StatefulWidget {
 }
 
 class _EveningSessionPageState extends State<EveningSessionPage> {
+  Future openDialog(String sessionTime) => showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(sessionTime),
+            // content: Text("This slot is already booked"),
+            actions: [
+              ElevatedButton(
+                child: Text("Book a session"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              ElevatedButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,12 +93,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                 SizedBox(height: 12),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GenderPage(),
-                      ),
-                    );
+                    openDialog("4:00 P.M. - 5:00 P.M.");
                   },
                   child: Container(
                     padding: EdgeInsets.all(16.0),
@@ -113,12 +131,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                 SizedBox(height: 12),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GenderPage(),
-                      ),
-                    );
+                      openDialog("5:00 P.M. - 6:00 P.M.");
                   },
                   child: Container(
                     padding: EdgeInsets.all(16.0),
@@ -156,12 +169,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                 SizedBox(height: 12),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GenderPage(),
-                      ),
-                    );
+                    openDialog("6:00 P.M. - 7:00 P.M.");
                   },
                   child: Container(
                     padding: EdgeInsets.all(16.0),
@@ -199,12 +207,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                 SizedBox(height: 12),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GenderPage(),
-                      ),
-                    );
+                    openDialog("7:00 P.M. - 8:00 P.M.");
                   },
                   child: Container(
                     padding: EdgeInsets.all(16.0),
@@ -242,12 +245,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                 SizedBox(height: 12),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GenderPage(),
-                      ),
-                    );
+                    openDialog("8:00 P.M. - 9:00 P.M.");
                   },
                   child: Container(
                     padding: EdgeInsets.all(16.0),
@@ -257,7 +255,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "9:00 - 10:00 P.M.",
+                          "8:00 - 9:00 P.M.",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,

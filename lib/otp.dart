@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gripngrab/birth_page.dart';
+import 'package:gripngrab/landing_page.dart';
+import 'package:gripngrab/name_page.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
+import 'auth_provider_page.dart';
 import 'gender.dart';
 import 'login_page.dart';
 
@@ -18,6 +22,8 @@ class _OtpPageState extends State<OtpPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    final ap= Provider.of<AuthProvider>(context, listen: false);
+    // final isloading = Provider.of<AuthProvider>(context, listen: false);
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -102,13 +108,27 @@ class _OtpPageState extends State<OtpPage> {
                                 smsCode: code);
 
                         // Sign the user in (or link) with the credential
-                        await auth.signInWithCredential(credential);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GenderPage(),
-                          ),
-                        );
+                        User ? user = (await auth.signInWithCredential(credential)).user;
+                        if (user!=null){
+                            String _uid = user.uid;
+                            ap.checkExistingUser(_uid).then((value) async {
+                              if (value) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LandingPage(),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InputScreen(),
+                                  ),
+                                );
+                              }
+                            });
+                        }
                       } catch (e) {
                         var snackBar =
                             SnackBar(content: Text('Wrong OTP' , style: TextStyle(fontFamily: 'Montserrat', fontSize: 15,fontWeight: FontWeight.bold )));

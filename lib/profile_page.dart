@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'landing_page.dart';
 
@@ -10,35 +11,31 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String _name = "John Doe";
   String _mobileNumber = "1234567890";
-  String _membershipStatus = "Premium";
+  String _membershipStatus = "Active";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
        backgroundColor: Color(0xFF1C1C1E),
       appBar: null,
-        body: Column(
+        body:      
+                Container(
+          height: double.infinity,
+          width: double.infinity,
+          child:
+          Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 40.0),
             Text("Profile", style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white)),
             SizedBox(height: 20.0),
-              Container(
-                height: 120,
-                width: 120,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage("https://i.pravatar.cc/150?img=7"),
-                    fit: BoxFit.fill,
+            CircleAvatar(
+                 backgroundImage: AssetImage('assets/images/avatar.png'), radius: 80,
                   ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                  
+              SizedBox(height: 40.0),
+        
                 Text("Name : ",
               style: TextStyle(
                 color: Color(0xFFBACBD3),
@@ -47,21 +44,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontFamily: 'Montserrat',
               ),
             ),
-            SizedBox(width: 10.0),
+            SizedBox(height: 12.0),
               Text(
               _name,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 17.0,
+                fontSize: 22.0,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Montserrat',
               ),
-            ),
-              ],),
-              SizedBox(height: 20.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+            ),            
+              SizedBox(height: 25.0),
                 Text("Number : ",
               style: TextStyle(
                 color: Color(0xFFBACBD3),
@@ -70,21 +63,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontFamily: 'Montserrat',
               ),
             ),
-            SizedBox(width: 10.0),
+            SizedBox(height: 12.0),
               Text(
               _mobileNumber,
               style: TextStyle(
                 color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat',
+              ),
+            ),
+          SizedBox(height: 25.0),
+          Text(
+              "Membership status : ",
+              style: TextStyle(
+                color: Color(0xFFBACBD3),
                 fontSize: 17.0,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Montserrat',
               ),
             ),
-            ],
-          ),
-          SizedBox(height: 20.0),
+            SizedBox(height: 12.0),
+            Text(
+              _membershipStatus,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat',
+              ),
+            ),
             ],
       ),
+        ),
+
+
         bottomNavigationBar: GNav(
         gap: 3,
         activeColor: Color(0xFFBACBD3),
@@ -103,14 +116,14 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LandingPage() ,
+                builder: (context) => LandingPage(),
               ),
             );
           }
         },
         tabBackgroundColor: Color(0xFF2C2C2E),
         tabs: const [
-            GButton(
+          GButton(
             iconColor: Color(0xFFBACBD3),
             icon: Icons.person,
             text: 'Profile',
@@ -120,11 +133,9 @@ class _ProfilePageState extends State<ProfilePage> {
             icon: Icons.home,
             text: 'Home',
           ),
-
         ],
         selectedIndex: 0,
       ),
-        
     );
   }
 }

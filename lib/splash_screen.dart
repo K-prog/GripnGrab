@@ -33,7 +33,7 @@ class _SplashScreen extends State<SplashScreen> {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     Timer(
         const Duration(milliseconds: 5000),
-        () => Navigator.of(context).pushReplacement(ap.isSignedIn == true
+        () => Navigator.of(context).pushReplacement(ap.isSignedIn == false
             ? MaterialPageRoute(
                 builder: (BuildContext context) => LandingPage())
             : MaterialPageRoute(
