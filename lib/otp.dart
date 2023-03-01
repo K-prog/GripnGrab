@@ -48,7 +48,17 @@ class _OtpPageState extends State<OtpPage> {
       ),
     );
     var code = "";
-    return Scaffold(
+    return WillPopScope(
+    onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+        return false;
+      },
+    child:Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
       appBar: null,
       body: Container(
@@ -111,7 +121,7 @@ class _OtpPageState extends State<OtpPage> {
                         User ? user = (await auth.signInWithCredential(credential)).user;
                         if (user!=null){
                             String _uid = user.uid;
-                            ap.checkExistingUser(_uid).then((value) async {
+                            ap.checkExistingUser().then((value) async {
                               if (value) {
                                 Navigator.push(
                                   context,
@@ -159,7 +169,7 @@ class _OtpPageState extends State<OtpPage> {
           ),
         ),
       ),
-    );
+    ),);
   }
 }
 // import 'dart:async';

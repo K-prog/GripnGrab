@@ -1,22 +1,80 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:gripngrab/cancel_page.dart';
 import 'package:gripngrab/evening_sessions_page.dart';
 import 'package:gripngrab/gender.dart';
 import 'package:gripngrab/profile_page.dart';
 import 'package:gripngrab/morning_sessions_page.dart';
+import 'package:gripngrab/user_details.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_provider_page.dart';
 
 class LandingPage extends StatelessWidget {
-    // var _instance = Firestore.instance;
-     
+   // var _instance = Firestore.instance;
   @override
   Widget build(BuildContext context) {
+      Future openDialog() => showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                "Are you sure you want to cancel the session?",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xFF2C2C2E),
+              actionsAlignment: MainAxisAlignment.center,
+              actions: [
+                ElevatedButton(
+                  child: Text("Confirm"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CancelPage(),
+                      ),
+                    );
+                  },
+                ),
+                TextButton(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
     final ap = Provider.of<AuthProvider>(context, listen: false);
-    Future<Map<String, dynamic>?> gg = ap.getUserData(ap.docId as String);
-    var gg1=gg.toString();
-    return Scaffold(
+    //Future<Map<String, dynamic>> gg = ap.getUserData(ap.docId as String);
+    var gg= GetUserName;
+    var gg1=gg;
+    return WillPopScope(
+    onWillPop: () async {
+  return (await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit an App'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+              child: new Text('No', style: TextStyle(color: Color(0xFFBACBD3))),
+            ),
+            TextButton(
+              onPressed: () => SystemNavigator.pop(),// <-- SEE HERE
+              child: new Text('Yes',
+                        style: TextStyle(color: Color(0xFFBACBD3))),
+            ),
+          ],
+        ),
+      )) ??
+      false;
+} ,
+    child:Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,13 +108,25 @@ class LandingPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      
                       //add date widget here
                     ],
                   ),
                   SizedBox(height: 12.0),
                   InkWell(
                     onTap: () {
+                      if (1==1){
+                      
+                      }
+                      else{
+                         var snackBar = SnackBar(
+                              content: Text(
+                                  'Activate Membership to book a session',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      };
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -112,11 +182,11 @@ class LandingPage extends StatelessWidget {
                   SizedBox(height: 12.0),
                   InkWell(
                      onTap: () {
-                      // print(gg!["firstName"]);
+                      print(ap.docId as String);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EveningSessionPage(),
+                          builder: (context) =>EveningSessionPage(),
                         ),
                       );
                     },
@@ -161,6 +231,25 @@ class LandingPage extends StatelessWidget {
               ),
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+           ElevatedButton(
+                          child: Text(
+                            "Cancel Session",
+                            style: TextStyle(
+                                color: Color(0xFF1C1C1E),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                          ),
+                          onPressed: () {
+                            openDialog();
+                          },
+           ),
+        ],
+      ),
+      SizedBox( height: 60.0)
         ],
       ),
       bottomNavigationBar: GNav(
@@ -170,19 +259,12 @@ class LandingPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 70, vertical: 17),
         duration: Duration(milliseconds: 700),
         onTabChange: (index) {
-          if (index == 0) {
-             Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LandingPage(),
-              ),
-            );
-          } else if (index == 1) {
+          if (index == 1) {
                Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProfilePage(),
-              ),
+                builder: (context) =>  GetUserName(ap.docId as String),
+              ),    
             );
           }
         },
@@ -201,6 +283,7 @@ class LandingPage extends StatelessWidget {
         ],
         selectedIndex: 0,
         
+      ),
       ),
       );
   }

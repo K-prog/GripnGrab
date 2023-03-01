@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gripngrab/gender.dart';
+import 'package:gripngrab/thanks_page.dart';
 
 class EveningSessionPage extends StatefulWidget {
   @override
@@ -11,16 +12,26 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(sessionTime),
+             title: Text(
+              sessionTime,
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Color(0xFF2C2C2E),
+            actionsAlignment: MainAxisAlignment.center,
             // content: Text("This slot is already booked"),
             actions: [
               ElevatedButton(
                 child: Text("Book a session"),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ThanksScreen(),
+                    ),
+                  );
                 },
               ),
-              ElevatedButton(
+              TextButton(
                 child: Text("Cancel"),
                 onPressed: () {
                   Navigator.of(context).pop();

@@ -19,7 +19,9 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     phone_controller.selection = TextSelection.fromPosition(
         TextPosition(offset: phone_controller.text.length));
-    return Scaffold(
+        return WillPopScope(
+    onWillPop: () async => false,
+    child: Scaffold(
         backgroundColor: Colors.white,
         appBar: null, //Removing the appbar
         body: SafeArea(
@@ -116,6 +118,6 @@ class LoginPage extends StatelessWidget {
           ),
         )
         )
-        );
+        ),);
   }
 }

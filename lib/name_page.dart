@@ -21,7 +21,9 @@ class _InputScreenState extends State<InputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+    onWillPop: () async => false,
+    child:Scaffold(
       backgroundColor: Color(0xFF1C1C1E),
       appBar: null,
       body: SingleChildScrollView(child: Container(
@@ -77,6 +79,6 @@ class _InputScreenState extends State<InputScreen> {
       ),
       ),
     ),
-    );
+    ),);
   }
 }

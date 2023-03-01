@@ -15,11 +15,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       backgroundColor: Color(0xFF1C1C1E),
+    return WillPopScope(
+    onWillPop: () async => false,
+    child:  Scaffold(
+      backgroundColor: Color(0xFF1C1C1E),
       appBar: null,
-        body:      
-                Container(
+        body: Container(
           height: double.infinity,
           width: double.infinity,
           child:
@@ -105,14 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: EdgeInsets.symmetric(horizontal: 70, vertical: 17),
         duration: Duration(milliseconds: 700),
         onTabChange: (index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfilePage(),
-              ),
-            );
-          } else if (index == 1) {
+          if (index == 1) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -136,6 +130,6 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
         selectedIndex: 0,
       ),
-    );
+    ),);
   }
 }

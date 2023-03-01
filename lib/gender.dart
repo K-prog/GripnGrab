@@ -69,14 +69,20 @@ class _GenderPageState extends State<GenderPage> {
                     builder: (context) => BirthdatePage(),
                   ),
                 );
+
               },
-              child: Icon(
+              child: Column(
+                children:[ Icon(
                 //<-- SEE HERE
                 Icons.male,
                 color: Color.fromRGBO(234, 239, 243, 1),
                 size: 94,
               ),
-              style: ElevatedButton.styleFrom(
+              Text("Male",style: TextStyle(color: Color.fromRGBO(234, 239, 243, 1),
+                          fontWeight: FontWeight.bold, fontSize: 15)),
+                ],
+              ),
+                style: ElevatedButton.styleFrom(
                 shape: CircleBorder(), //<-- SEE HERE
                 padding: EdgeInsets.all(20),
               ),
@@ -94,11 +100,17 @@ class _GenderPageState extends State<GenderPage> {
                   ),
                 );
               },
-              child: Icon(
+              child:Column
+              (children:[ 
+                Icon(
                 //<-- SEE HERE
                 Icons.female,
                 color: Color.fromRGBO(234, 239, 243, 1),
                 size: 94,
+              ),
+              Text("Female", style: TextStyle(color: Color.fromRGBO(234, 239, 243, 1),
+                          fontWeight: FontWeight.bold, fontSize: 15)),
+              ],
               ),
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(), //<-- SEE HERE

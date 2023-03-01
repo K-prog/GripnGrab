@@ -12,28 +12,12 @@ class SplashScreen extends StatefulWidget {
   _SplashScreen createState() => _SplashScreen();
 }
 class _SplashScreen extends State<SplashScreen> {
-  // final ap = Provider.of<AuthProvider>(context, listen: false);
-  // @override
-  // void initState() {
-  //   // ignore: todo
-  //   // TODO: implement initState
-  //   super.initState();
-    // Timer(
-    //     const Duration(milliseconds: 5000),
-    //     () => Navigator.of(context).pushReplacement(ap.isSignedIn()
-    //         ? MaterialPageRoute(
-    //             builder: (BuildContext context) => LandingPage())
-    //         : MaterialPageRoute(
-    //             builder: (BuildContext context) => LoginPage())));
-  // }
-
-  
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     Timer(
         const Duration(milliseconds: 5000),
-        () => Navigator.of(context).pushReplacement(ap.isSignedIn == false
+        () => Navigator.of(context).pushReplacement(ap.isSignedIn == true
             ? MaterialPageRoute(
                 builder: (BuildContext context) => LandingPage())
             : MaterialPageRoute(

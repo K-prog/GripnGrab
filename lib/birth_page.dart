@@ -107,6 +107,7 @@ class _BirthdatePageState extends State<BirthdatePage> {
                     ),
                 ),
           ],),
+              
           ElevatedButton(
                 child: Text(
                   "Next",
@@ -126,8 +127,15 @@ class _BirthdatePageState extends State<BirthdatePage> {
                       builder: (context) => LandingPage(),
                     ),
                   );
-                }, //doubtttttt
+                },
               ),
-        ],)),);
+              //  Image.asset(
+              //   'assets/images/dob.png',
+              //   width: double.infinity,
+              // ),
+        ],
+        )
+        ),
+        );
   }
 }
