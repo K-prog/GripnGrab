@@ -50,10 +50,10 @@ class _CancelPage extends State<CancelPage> {
       );
   @override
   Widget build(BuildContext context) {
-  Timer(
-        const Duration(milliseconds: 2500),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => LandingPage())));
+  // Timer(
+  //       const Duration(milliseconds: 2500),
+  //       () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+  //           builder: (BuildContext context) => LandingPage())));
     final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
     CollectionReference users =
         FirebaseFirestore.instance.collection('morningSession');
@@ -120,6 +120,24 @@ class _CancelPage extends State<CancelPage> {
                                 fontWeight: FontWeight.w100,
                                 fontSize: 20)),
                         SizedBox(height: 20),
+                        ElevatedButton(
+                          child: Text(
+                            "Continue",
+                            style: TextStyle(
+                                color: Color(0xFF1C1C1E),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LandingPage(),
+                              ),
+                            );
+                          },
+                        ),
                       // FittedBox(
                       //   child: Image.asset('assets/vids/final_intro.gif'),
                       // ),

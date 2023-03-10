@@ -72,7 +72,8 @@ class _GenderPageState extends State<GenderPage> {
 
               },
               child: Column(
-                children:[ Icon(
+                children:[ 
+                  Icon(
                 //<-- SEE HERE
                 Icons.male,
                 color: Color.fromRGBO(234, 239, 243, 1),

@@ -13,10 +13,10 @@ class ThanksScreen extends StatefulWidget {
 class _ThanksScreen extends State<ThanksScreen> {
   @override
   Widget build(BuildContext context) {
-    Timer(
-        const Duration(milliseconds: 2500),
-        () => Navigator.of(context).pushReplacement( MaterialPageRoute(
-                builder: (BuildContext context) => LandingPage())));
+    // Timer(
+    //     const Duration(milliseconds: 2500),
+    //     () => Navigator.of(context).pushReplacement( MaterialPageRoute(
+    //             builder: (BuildContext context) => LandingPage())));
     return WillPopScope(
     onWillPop: () async => false,
     child: Scaffold(
@@ -51,6 +51,24 @@ class _ThanksScreen extends State<ThanksScreen> {
                       fontWeight: FontWeight.w100,
                       fontSize: 20)),
               SizedBox(height: 20),
+              ElevatedButton(
+                child: Text(
+                  "Continue",
+                  style: TextStyle(
+                      color: Color(0xFF1C1C1E),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LandingPage(),
+                    ),
+                  );
+                },
+              ),
             // FittedBox(
             //   child: Image.asset('assets/vids/final_intro.gif'),
             // ),

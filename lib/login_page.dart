@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                     'assets/images/loginimg.png',
                     width: double.infinity,
                   ),
-                  const SizedBox(height: 70),
+                  const SizedBox(height: 40),
                   Padding(
                     padding: EdgeInsets.all(20.0),
                     child: TextFormField(
@@ -118,6 +118,7 @@ class LoginPage extends StatelessWidget {
           ),
         )
         )
-        ),);
+         )
+        ,);
   }
 }

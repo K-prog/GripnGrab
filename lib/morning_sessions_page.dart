@@ -295,9 +295,7 @@ class _MorningSessionPage extends State<MorningSessionPage> {
                             ),
                             SizedBox(height: 12),
                             InkWell(
-                              onTap: () {
-                                openDialog("11:00 A.M. - 12:00 P.M.");
-                              },
+                              
                               child: Container(
                                 padding: EdgeInsets.all(16.0),
                                 height: 70,

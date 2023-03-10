@@ -57,10 +57,22 @@ class AuthProvider extends ChangeNotifier {
     _isSignedIn = true;
     notifyListeners();
   }
-
-  Future<bool> checkExistingUser() async {
-    QuerySnapshot snapshot =
-        await _firebaseFirestore.collection("users").where("phone", isEqualTo: LoginPage.phone).get();
+    void setMembershipStatus(bool status) async {
+    final SharedPreferences s = await SharedPreferences.getInstance();
+    s.setBool("isMember", status);
+    notifyListeners();
+  }
+  Future<bool> getMembershipStatus() async {
+    final SharedPreferences s = await SharedPreferences.getInstance();
+    bool status = s.getBool("isMember") ?? false;
+    notifyListeners();
+    return status;
+  }
+    Future<bool> checkExistingUser() async {
+    QuerySnapshot snapshot = await _firebaseFirestore
+        .collection("users")
+        .where("phone", isEqualTo: LoginPage.phone)
+        .get();
     if (snapshot.docs.isNotEmpty) {
       final SharedPreferences s = await SharedPreferences.getInstance();
       this.docId = snapshot.docs[0].id;
@@ -89,13 +101,19 @@ class AuthProvider extends ChangeNotifier {
   }
   
 
-Future getDataFromFirestore() async { 
-  await _firebaseFirestore
-.collection("users")
-.where("phone", isEqualTo: LoginPage.phone)
-.get()
-.then((DocumentSnapshot snapshot) { 
-  print (snapshot["phone"]);
-} as FutureOr Function(QuerySnapshot<Map<String, dynamic>> value));
+Future<String> getDataFromFirestore(String s) async { 
+QuerySnapshot snapshot = await _firebaseFirestore
+        .collection("users")
+        .where("phone", isEqualTo: LoginPage.phone)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      Map<String, dynamic> data =
+          snapshot.docs[0].data() as Map<String, dynamic>;
+      print(data[s]);
+      return data[s] as String;
+    } 
+    else{
+      return "";
+    }
 } 
 }

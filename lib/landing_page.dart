@@ -113,9 +113,15 @@ class LandingPage extends StatelessWidget {
                   ),
                   SizedBox(height: 12.0),
                   InkWell(
-                    onTap: () {
-                      if (1==1){
-                      
+                    onTap: () async {
+                      //ap.getDataFromFirestore("membershipStatus");
+                      if (await ap.getMembershipStatus()){
+                       Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MorningSessionPage(),
+                            ),
+                          );
                       }
                       else{
                          var snackBar = SnackBar(
@@ -127,12 +133,7 @@ class LandingPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold)));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       };
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MorningSessionPage(),
-                        ),
-                      );
+                     
                     },
                   child: Card(
                     child: Container(
@@ -181,14 +182,25 @@ class LandingPage extends StatelessWidget {
                   ),
                   SizedBox(height: 12.0),
                   InkWell(
-                     onTap: () {
-                      print(ap.docId as String);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>EveningSessionPage(),
-                        ),
-                      );
+                     onTap: () async{
+                      if (await ap.getMembershipStatus()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EveningSessionPage(),
+                            ),
+                          );
+                        } else {
+                          var snackBar = SnackBar(
+                              content: Text(
+                                  'Activate Membership to book a session',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                        ;
                     },
                   child: Card(
                     child: Container(

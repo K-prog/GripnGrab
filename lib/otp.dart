@@ -121,8 +121,21 @@ class _OtpPageState extends State<OtpPage> {
                         User ? user = (await auth.signInWithCredential(credential)).user;
                         if (user!=null){
                             String _uid = user.uid;
+                            print(ap.checkExistingUser());
                             ap.checkExistingUser().then((value) async {
                               if (value) {
+                                ap.getDataFromFirestore("membershipStatus").then((status)async {
+                                  if (status.toLowerCase() == "inactive")
+                                    ap.setMembershipStatus(false);
+                                  else if (status.toLowerCase() == "active")
+                                    ap.setMembershipStatus(true);
+                                  else {
+                                    ap.setMembershipStatus(false);
+                                    // Toast unable to fetch membership status
+                                  }
+                                });
+                                
+                                print("hi");
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -130,6 +143,7 @@ class _OtpPageState extends State<OtpPage> {
                                   ),
                                 );
                               } else {
+                                ap.setMembershipStatus(false);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
