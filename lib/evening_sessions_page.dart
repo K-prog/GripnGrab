@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gripngrab/gender.dart';
+import 'package:gripngrab/screens/auth/gender_selection_screen.dart';
 import 'package:gripngrab/thanks_page.dart';
 
 class EveningSessionPage extends StatefulWidget {
@@ -12,7 +12,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-             title: Text(
+            title: Text(
               sessionTime,
               style: TextStyle(color: Colors.white),
             ),
@@ -142,7 +142,7 @@ class _EveningSessionPageState extends State<EveningSessionPage> {
                 SizedBox(height: 12),
                 InkWell(
                   onTap: () {
-                      openDialog("5:00 P.M. - 6:00 P.M.");
+                    openDialog("5:00 P.M. - 6:00 P.M.");
                   },
                   child: Container(
                     padding: EdgeInsets.all(16.0),

@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:gripngrab/login_page.dart';
-import 'package:gripngrab/splash_screen.dart';
+import 'package:gripngrab/screens/auth/login_page.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'auth_provider_page.dart';
-import 'landing_page.dart';
+import 'providers/auth_provider.dart';
+import 'screens/landing_page.dart';
 
 // class UserModel {
 //  String name;
@@ -49,27 +46,25 @@ import 'landing_page.dart';
 class GetUserName extends StatelessWidget {
   final String documentId;
 
-  String  name="";
+  String name = "";
   //String _mobileNumber = "";
   String mobileNumber = "";
   //String _membershipStatus = "";
   String membershipStatus = "";
   GetUserName(this.documentId);
-  void setNames(String name, String mobileNumber, String membershipStatus){
-
+  void setNames(String name, String mobileNumber, String membershipStatus) {
     this.name = name;
     this.mobileNumber = mobileNumber;
     this.membershipStatus = membershipStatus;
-        //print(this.name);
+    //print(this.name);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final ap = Provider.of<AuthProvider>(context, listen: false);
     return WillPopScope(
-    onWillPop: () async {
+      onWillPop: () async {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -78,20 +73,18 @@ class GetUserName extends StatelessWidget {
         );
         return false;
       },
-    child:
-   Scaffold(
-      backgroundColor: Color(0xFF1C1C1E),
-      appBar: null,
-      body:Container( 
-        height: double.infinity,
-        width: double.infinity,
-        child: FutureBuilder<DocumentSnapshot>(
-            future: users.doc(ap.docId).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done)
-              {
-                if (snapshot.hasData){
+      child: Scaffold(
+        backgroundColor: Color(0xFF1C1C1E),
+        appBar: null,
+        body: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: FutureBuilder<DocumentSnapshot>(
+              future: users.doc(ap.docId).get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
                     Map<String, dynamic> data =
                         snapshot.data!.data() as Map<String, dynamic>;
                     // _name = "${data['firstName']} ${data['lastName']}";
@@ -199,48 +192,46 @@ class GetUserName extends StatelessWidget {
                         //
                       ],
                     );
+                  }
+                } else {
+                  return const Center(child: CircularProgressIndicator());
                 }
-              }  else {
                 return const Center(child: CircularProgressIndicator());
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          )
-    ),
-    bottomNavigationBar: GNav(
-        gap: 3,
-        activeColor: Color(0xFFBACBD3),
-        iconSize: 24,
-        padding: EdgeInsets.symmetric(horizontal: 70, vertical: 17),
-        duration: Duration(milliseconds: 700),
-        onTabChange: (index) {
-          print(name);
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LandingPage(),
-              ),
-            );
-          }
-        },
-        tabBackgroundColor: Color(0xFF2C2C2E),
-        tabs: const [
-          GButton(
-            iconColor: Color(0xFFBACBD3),
-            icon: Icons.person,
-            text: 'Profile',
-          ),
-          GButton(
-            iconColor: Color(0xFFBACBD3),
-            icon: Icons.home,
-            text: 'Home',
-          ),
-        ],
-        selectedIndex: 0,
+              },
+            )),
+        bottomNavigationBar: GNav(
+          gap: 3,
+          activeColor: Color(0xFFBACBD3),
+          iconSize: 24,
+          padding: EdgeInsets.symmetric(horizontal: 70, vertical: 17),
+          duration: Duration(milliseconds: 700),
+          onTabChange: (index) {
+            print(name);
+            if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LandingPage(),
+                ),
+              );
+            }
+          },
+          tabBackgroundColor: Color(0xFF2C2C2E),
+          tabs: const [
+            GButton(
+              iconColor: Color(0xFFBACBD3),
+              icon: Icons.person,
+              text: 'Profile',
+            ),
+            GButton(
+              iconColor: Color(0xFFBACBD3),
+              icon: Icons.home,
+              text: 'Home',
+            ),
+          ],
+          selectedIndex: 0,
+        ),
       ),
-    ),);
-    
+    );
   }
-  
 }

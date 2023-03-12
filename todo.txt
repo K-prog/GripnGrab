@@ -1,0 +1,8 @@
+1. remove the captcha verification in android
+2. code for profile photo section in firebase storage
+3. look at id creation also user model to add profile photo concept. 
+4. textformfield in user input fields. 
+5. user birth date ui changes 
+6. on user profile screen 
+7. hello shivansh, string in homepage.dart file 
+8. resent otp 

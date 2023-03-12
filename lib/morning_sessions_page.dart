@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gripngrab/gender.dart';
 import 'package:gripngrab/thanks_page.dart';
 import 'package:provider/provider.dart';
 
-import 'auth_provider_page.dart';
+import 'providers/auth_provider.dart';
 
 class MorningSessionPage extends StatefulWidget {
   @override
@@ -295,7 +294,6 @@ class _MorningSessionPage extends State<MorningSessionPage> {
                             ),
                             SizedBox(height: 12),
                             InkWell(
-                              
                               child: Container(
                                 padding: EdgeInsets.all(16.0),
                                 height: 70,
