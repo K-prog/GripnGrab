@@ -18,7 +18,6 @@ class UserNameScreen extends StatefulWidget {
 class _UserNameScreenState extends State<UserNameScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _dateOfBirthController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? image;
   late AuthProvider authProvider;
@@ -37,32 +36,39 @@ class _UserNameScreenState extends State<UserNameScreen> {
 
   // store user data
   void storeUserData() async {
+    authProvider = Provider.of<AuthProvider>(context, listen: false);
     DateTime timeStamp = DateTime.now();
     if (image != null) {
-      UserModel userModel = UserModel(
+      authProvider.settinguserModel = UserModel(
         id: '',
         phoneNumber: '',
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        gender: '',
         createdAt: timeStamp,
         profilePhoto: '',
-        firstName: _firstNameController.text.trim(),
-        lastName: _lastNameController.text.trim(),
-        gender: '',
-        dateOfBirth: _dateOfBirthController.text.trim(),
+        dateOfBirth: '',
         membershipActivated: false,
       );
-      authProvider.setLoading(isLoading: true);
-      authProvider.saveUserDataToFirebase(
-          context: context,
-          userModel: userModel,
-          profilePic: image!,
-          onSuccess: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const GenderSelectionScreen(),
-              ),
-            );
-          });
+      authProvider.setCurrentImage = image;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const GenderSelectionScreen(),
+        ),
+      );
+      // authProvider.saveUserDataToFirebase(
+      //     context: context,
+      //     userModel: userModel,
+      //     profilePic: image!,
+      //     onSuccess: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => const GenderSelectionScreen(),
+      //         ),
+      //       );
+      //     });
     } else {
       showSnackBar(
         context: context,
@@ -74,7 +80,6 @@ class _UserNameScreenState extends State<UserNameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    authProvider = Provider.of<AuthProvider>(context, listen: true);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -175,88 +180,79 @@ class _UserNameScreenState extends State<UserNameScreen> {
                   ),
                   const SizedBox(height: 20.0),
                   // date of birth selector
-                  TextField(
-                    controller: _dateOfBirthController,
-                    onTap: () async {
-                      // Show the date picker
-                      final DateTime? selectedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                        builder: (context, child) {
-                          return Theme(
-                              data: ThemeData.light().copyWith(
-                                colorScheme: const ColorScheme.light(
-                                  primary: kPrimaryColor,
-                                  onPrimary: Colors.white,
-                                  surface: Colors.white,
-                                  onSurface: Colors.black,
-                                ),
-                              ),
-                              child: child!);
-                        },
-                      );
+                  // TextField(
+                  //   controller: _dateOfBirthController,
+                  //   onTap: () async {
+                  //     // Show the date picker
+                  //     final DateTime? selectedDate = await showDatePicker(
+                  //       context: context,
+                  //       initialDate: DateTime.now(),
+                  //       firstDate: DateTime(1900),
+                  //       lastDate: DateTime.now(),
+                  //       builder: (context, child) {
+                  //         return Theme(
+                  //             data: ThemeData.light().copyWith(
+                  //               colorScheme: const ColorScheme.light(
+                  //                 primary: kPrimaryColor,
+                  //                 onPrimary: Colors.white,
+                  //                 surface: Colors.white,
+                  //                 onSurface: Colors.black,
+                  //               ),
+                  //             ),
+                  //             child: child!);
+                  //       },
+                  //     );
 
-                      // Update the text field value with the selected date
-                      if (selectedDate != null) {
-                        _dateOfBirthController.text =
-                            "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}";
-                      }
-                    },
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      labelText: 'Date Of Birth',
-                      prefixIcon: Icon(
-                        Icons.calendar_month,
-                        color: Colors.white,
-                      ),
-                      labelStyle: TextStyle(color: Colors.white60),
-                      hintStyle: TextStyle(color: Colors.white60),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ), //Setting the border color
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ), //Setting the border color
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Colors.red,
-                        ), //Setting the border color
-                      ),
-                    ),
-                  ),
+                  //     // Update the text field value with the selected date
+                  //     if (selectedDate != null) {
+                  //       _dateOfBirthController.text =
+                  //           "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}";
+                  //     }
+                  //   },
+                  //   style: const TextStyle(color: Colors.white),
+                  //   decoration: const InputDecoration(
+                  //     labelText: 'Date Of Birth',
+                  //     prefixIcon: Icon(
+                  //       Icons.calendar_month,
+                  //       color: Colors.white,
+                  //     ),
+                  //     labelStyle: TextStyle(color: Colors.white60),
+                  //     hintStyle: TextStyle(color: Colors.white60),
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  //       borderSide: BorderSide(
+                  //         width: 2,
+                  //         color: Colors.white,
+                  //       ), //Setting the border color
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  //       borderSide: BorderSide(
+                  //         width: 2,
+                  //         color: Colors.white,
+                  //       ), //Setting the border color
+                  //     ),
+                  //     errorBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  //       borderSide: BorderSide(
+                  //         width: 2,
+                  //         color: Colors.red,
+                  //       ), //Setting the border color
+                  //     ),
+                  //   ),
+                  // ),
 
-                  const SizedBox(height: 20.0),
+                  // const SizedBox(height: 20.0),
+
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     height: 40,
                     child: ElevatedButton(
                       onPressed: storeUserData,
-                      child: authProvider.isLoading == true
-                          ? Container(
-                              height: 25,
-                              alignment: Alignment.center,
-                              width: 25,
-                              child: const CircularProgressIndicator(
-                                color: kPrimaryColor,
-                                strokeWidth: 3.0,
-                              ),
-                            )
-                          : const Text(
-                              'Submit',
-                              style: TextStyle(fontFamily: 'Montserrat'),
-                            ),
+                      child: const Text(
+                        'Next',
+                        style: TextStyle(fontFamily: 'Montserrat'),
+                      ),
                     ),
                   ),
                 ],

@@ -17,17 +17,28 @@ class AuthProvider extends ChangeNotifier {
   bool get isSignedIn => _isSignedIn;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-
   String? _uid;
   String? get uid => _uid;
   UserModel? _userModel;
   UserModel? get userModel => _userModel;
+  File? _selectedUserImage;
+  File? get selectedUserImage => _selectedUserImage;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+
   AuthProvider() {
     checkSignIn();
     getDocId();
+  }
+  set settinguserModel(UserModel? userModel) {
+    _userModel = userModel;
+    notifyListeners();
+  }
+
+  set setCurrentImage(File? setimage) {
+    _selectedUserImage = setimage;
+    notifyListeners();
   }
 
   void setLoading({required bool isLoading}) {
@@ -57,9 +68,10 @@ class AuthProvider extends ChangeNotifier {
           verificationFailed: (error) {
             if (error.message == 'TOO_LONG') {
               showSnackBar(
-                  context: context,
-                  content:
-                      'Phone number is too long, please enter it in correct way.');
+                context: context,
+                content:
+                    'Phone number is too long, please enter it in correct way.',
+              );
             }
           },
           codeSent: ((String verificationId, forceResendingToken) {
@@ -95,18 +107,27 @@ class AuthProvider extends ChangeNotifier {
       _uid = user.uid;
       onSuccess();
     } on FirebaseAuthException catch (e) {
-      _isLoading = false;
-      showSnackBar(context: context, content: e.message.toString());
-      notifyListeners();
+      if (e.code == 'invalid-verification-code') {
+        showSnackBar(
+          context: context,
+          content: 'Please enter correct otp send to your device.',
+        );
+        _isLoading = false;
+        notifyListeners();
+      } else {
+        showSnackBar(context: context, content: e.message.toString());
+        _isLoading = false;
+        notifyListeners();
+      }
     }
   }
 
   // save user data
-  void saveUserDataToFirebase(
-      {required BuildContext context,
-      required UserModel userModel,
-      required File profilePic,
-      required Function onSuccess}) async {
+  Future<void> saveUserDataToFirebase({
+    required BuildContext context,
+    required UserModel userModel,
+    required File profilePic,
+  }) async {
     try {
       String phoneNumber = firebaseAuth.currentUser!.phoneNumber!;
       // saving user data to database
@@ -119,12 +140,7 @@ class AuthProvider extends ChangeNotifier {
       await firebaseFirestore
           .collection('users')
           .doc(_uid)
-          .set(userModel.toJson())
-          .then((value) {
-        _isLoading = false;
-        notifyListeners();
-        onSuccess();
-      });
+          .set(userModel.toJson());
     } on FirebaseAuthException catch (e) {
       _isLoading = false;
       showSnackBar(context: context, content: e.message.toString());
@@ -194,7 +210,6 @@ class AuthProvider extends ChangeNotifier {
   void checkSignIn() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     _isSignedIn = s.getBool("isSignedIn") ?? false;
-    await firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
     notifyListeners();
   }
 

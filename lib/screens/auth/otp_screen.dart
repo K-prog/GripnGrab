@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gripngrab/screens/auth/user_name_screen.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
+import 'package:gripngrab/screens/mybottom_bar.dart';
 import 'package:gripngrab/utils/colors.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -210,7 +211,27 @@ class _OtpScreenState extends State<OtpScreen> {
       onSuccess: () async {
         await authProvider.checkExistingUser().then((value) async {
           if (value == true) {
+            // user exists
+            print('user exists');
+            authProvider
+                .getUserDataFromFirestore(
+                    authProvider.firebaseAuth.currentUser!.uid)
+                .then((value) => authProvider
+                        .saveDataToSP()
+                        .then((value) => authProvider.setSignIn())
+                        .whenComplete(() {
+                      authProvider.setLoading(isLoading: false);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const MyBottomBar(selectedIndex: 0),
+                        ),
+                      );
+                    }));
           } else {
+            // new user
+            print('new user');
             authProvider.setLoading(isLoading: false);
             Navigator.push(
               context,

@@ -15,8 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController phoneController = TextEditingController();
   late AuthProvider authProvider;
-  final ImageProvider loginImage =
-      const AssetImage('assets/images/loginimg.png');
+  final ImageProvider loginImage = const AssetImage(
+    'assets/images/loginimg.png',
+  );
 
   void precacheBackground() {
     precacheImage(loginImage, context);
@@ -99,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                                     color: Colors.white,
                                   ), //Setting the border color
                                 ),
+                                filled: false,
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8.0)),

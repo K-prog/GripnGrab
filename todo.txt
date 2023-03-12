@@ -1,8 +1,16 @@
 1. remove the captcha verification in android
-2. code for profile photo section in firebase storage
-3. look at id creation also user model to add profile photo concept. 
-4. textformfield in user input fields. 
-5. user birth date ui changes 
+2. done - code for profile photo section in firebase storage
+3. done - look at id creation also user model to add profile photo concept. 
+4. done - textformfield in user input fields. 
+5. done - user birth date ui changes 
 6. on user profile screen 
 7. hello shivansh, string in homepage.dart file 
 8. resent otp 
+
+
+
+// told by client
+1. done - seperate page for DOB
+2. done - back button in gender page 
+3. done - next button instead of submit
+4. done - if user exists then look at that flow.
