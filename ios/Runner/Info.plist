@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.152880036058-vn1fphm0kk80cnsjgvh7tbvrlop48eoi</string>
+				<string>com.googleusercontent.apps.686419843702-jgpoj86iivpt26ju3vv7bbbni9uh16hc</string>
 			</array>
 		</dict>
 	</array>
@@ -37,7 +37,6 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<!-- Permission for camera and photo library access  -->
 	<key>NSCameraUsageDescription</key>
 	<string>GripnGrab requires camera permission to select images from camera.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -221,17 +221,25 @@ class _LandingPageState extends State<LandingPage> {
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            if (authProvider.eveningBooked == false) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MorningSession()),
-              );
+            if (authProvider.userModel!.membershipActivated) {
+              if (authProvider.eveningBooked == false) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MorningSession()),
+                );
+              } else {
+                showSnackBar(
+                  context: context,
+                  content:
+                      'Please cancel evening session first to book morning session',
+                );
+              }
             } else {
               showSnackBar(
-                context: context,
-                content:
-                    'Please cancel evening session first to book morning session',
-              );
+                  context: context,
+                  content:
+                      'Please activate your membership to book GripnGrab morning sessions');
             }
           },
           child: Container(
@@ -287,17 +295,25 @@ class _LandingPageState extends State<LandingPage> {
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            if (authProvider.morningBooked == false) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const EveningSession()),
-              );
+            if (authProvider.userModel!.membershipActivated) {
+              if (authProvider.morningBooked == false) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EveningSession()),
+                );
+              } else {
+                showSnackBar(
+                  context: context,
+                  content:
+                      'Please cancel morning session first to book evening session',
+                );
+              }
             } else {
               showSnackBar(
-                context: context,
-                content:
-                    'Please cancel morning session first to book evening session',
-              );
+                  context: context,
+                  content:
+                      'Please activate your membership to book GripnGrab evening sessions');
             }
           },
           child: Container(

@@ -1,53 +1,45 @@
 {
   "project_info": {
-    "project_number": "152880036058",
-    "project_id": "gripngrab-7bd56",
-    "storage_bucket": "gripngrab-7bd56.appspot.com"
+    "project_number": "686419843702",
+    "project_id": "gripngrab-11edf",
+    "storage_bucket": "gripngrab-11edf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:152880036058:android:861d56b6d20e0bfdcb8de3",
+        "mobilesdk_app_id": "1:686419843702:android:45ab25f98ec9e7f6339d57",
         "android_client_info": {
           "package_name": "com.example.gripngrab"
         }
       },
       "oauth_client": [
         {
-          "client_id": "152880036058-hr8sjbe6hskf74k0aqjjstv75el9okpt.apps.googleusercontent.com",
+          "client_id": "686419843702-7caris5dqin32ul44a3gb03l58td6ps3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.gripngrab",
-            "certificate_hash": "2719f076dea149d6be3f4e58ed85330b3e3d36b7"
+            "certificate_hash": "f3ea1114181e9a954a1bffd45d9c83a00c853b8f"
           }
         },
         {
-          "client_id": "152880036058-kg0jh00cl1d076k8e2i62ciqlc359ojr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.gripngrab",
-            "certificate_hash": "94c7af7e69a3acd5a93ed605b76262c7ccc1b865"
-          }
-        },
-        {
-          "client_id": "152880036058-df2v80ilqc7cnq8kt9e3m8082i89p6lm.apps.googleusercontent.com",
+          "client_id": "686419843702-l5lqotrp5hrnc97aopqv6v1fta2hl6i6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXKOKgO_AFcYBEm6oxMiiloJTl0zKaYmg"
+          "current_key": "AIzaSyDWHL2PGKPh2nv-QEql7sR1ouNcMKuDXdg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "152880036058-df2v80ilqc7cnq8kt9e3m8082i89p6lm.apps.googleusercontent.com",
+              "client_id": "686419843702-l5lqotrp5hrnc97aopqv6v1fta2hl6i6.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "152880036058-vn1fphm0kk80cnsjgvh7tbvrlop48eoi.apps.googleusercontent.com",
+              "client_id": "686419843702-jgpoj86iivpt26ju3vv7bbbni9uh16hc.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.gripngrab"

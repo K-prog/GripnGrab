@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>152880036058-vn1fphm0kk80cnsjgvh7tbvrlop48eoi.apps.googleusercontent.com</string>
+	<string>686419843702-jgpoj86iivpt26ju3vv7bbbni9uh16hc.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.152880036058-vn1fphm0kk80cnsjgvh7tbvrlop48eoi</string>
+	<string>com.googleusercontent.apps.686419843702-jgpoj86iivpt26ju3vv7bbbni9uh16hc</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCVBqrHUnDLu4VIXagPoGXDfXgr51AuDFM</string>
+	<string>AIzaSyBrhOPLEbacArE-Y4T4l3DXETMrNfQ0Io0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>152880036058</string>
+	<string>686419843702</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.gripngrab</string>
 	<key>PROJECT_ID</key>
-	<string>gripngrab-7bd56</string>
+	<string>gripngrab-11edf</string>
 	<key>STORAGE_BUCKET</key>
-	<string>gripngrab-7bd56.appspot.com</string>
+	<string>gripngrab-11edf.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:152880036058:ios:327effd97bd9e1e4cb8de3</string>
+	<string>1:686419843702:ios:b63e3502d12060d0339d57</string>
 </dict>
 </plist>

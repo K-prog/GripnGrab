@@ -4,9 +4,9 @@ import 'package:gripngrab/models/app_model.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
 import 'package:gripngrab/providers/sessions_provider.dart';
 import 'package:gripngrab/screens/thanks_page.dart';
+import 'package:gripngrab/screens/widgets/session_loading_screens.dart';
 import 'package:gripngrab/utils/colors.dart';
 import 'package:gripngrab/utils/utils.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MorningSession extends StatefulWidget {
@@ -226,7 +226,8 @@ class _MorningSessionState extends State<MorningSession> {
                 ],
               );
             }
-            return const SizedBox.shrink();
+
+            return const SessionsLoadingScreen();
           },
         ));
   }

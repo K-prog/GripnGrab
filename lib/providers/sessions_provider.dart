@@ -80,8 +80,22 @@ class SessionsProvider extends ChangeNotifier {
                 .doc(sessionsModel.id)
                 .update(
               {'available': currentCount + 1},
-            ).whenComplete(() => onSuccess());
+            );
           }
+        }
+        QuerySnapshot querySnapshot = await firebaseFirestore
+            .collection('users')
+            .doc(authProvider.userModel!.id)
+            .collection('history')
+            .where('sessionId', isEqualTo: sessionsModel.id)
+            .get();
+        if (querySnapshot.docs.isNotEmpty) {
+          await firebaseFirestore
+              .collection('users')
+              .doc(authProvider.userModel!.id)
+              .collection('history')
+              .doc(querySnapshot.docs[0].id)
+              .update({'canceled': true}).whenComplete(() => onSuccess());
         }
       }
     } on FirebaseException catch (e) {
@@ -133,9 +147,22 @@ class SessionsProvider extends ChangeNotifier {
               .doc(sessionsModel.id)
               .update(
             {'available': currentCount - 1},
-          ).whenComplete(() => onSuccess());
+          );
         }
       }
+      // updating user history also
+      await firebaseFirestore
+          .collection('users')
+          .doc(authProvider.userModel!.id)
+          .collection('history')
+          .add(SessionHistory(
+            bookedAt: DateTime.now(),
+            canceled: false,
+            sessionId: sessionsModel.id,
+            sessionType: sessionsModel.sessionType,
+            timeFrame: sessionsModel.timeFrame,
+          ).toJson())
+          .whenComplete(() => onSuccess());
     } on FirebaseException catch (e) {
       // ignore: use_build_context_synchronously
       showSnackBar(context: context, content: e.toString());

@@ -1,16 +1,24 @@
 import 'dart:async';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gripngrab/providers/mybottom_bar_provider.dart';
 import 'package:gripngrab/providers/sessions_provider.dart';
 import 'package:gripngrab/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  await firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.playIntegrity,
+    appleProvider: AppleProvider.appAttest,
+  );
   runApp(const MyApp());
 }
 

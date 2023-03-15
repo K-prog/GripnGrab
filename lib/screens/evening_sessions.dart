@@ -4,6 +4,7 @@ import 'package:gripngrab/models/app_model.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
 import 'package:gripngrab/providers/sessions_provider.dart';
 import 'package:gripngrab/screens/thanks_page.dart';
+import 'package:gripngrab/screens/widgets/session_loading_screens.dart';
 import 'package:gripngrab/utils/colors.dart';
 import 'package:gripngrab/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -221,7 +222,7 @@ class _EveningSessionState extends State<EveningSession> {
                 ],
               );
             }
-            return const SizedBox.shrink();
+            return const SessionsLoadingScreen();
           },
         ));
   }

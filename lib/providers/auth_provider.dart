@@ -66,7 +66,6 @@ class AuthProvider extends ChangeNotifier {
     SessionsProvider sessionsProvider,
   ) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
     QuerySnapshot querySnapshot = await firebaseFirestore
         .collectionGroup('slots')
         .where('bookedBy', isEqualTo: userModel!.id)
@@ -96,6 +95,24 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       }
     }
+
+    // updating user membership also
+    await firebaseFirestore
+        .collection('users')
+        .doc(userModel!.id)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        userModel!.membershipActivated = value['membershipActivated'];
+        notifyListeners();
+      }
+    });
+    await sharedPreferences.setString(
+      'userModel',
+      jsonEncode(
+        _userModel!.toJson(),
+      ),
+    );
   }
 
   // sign in with phone
@@ -254,6 +271,7 @@ class AuthProvider extends ChangeNotifier {
   void checkSignIn() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     _isSignedIn = s.getBool("isSignedIn") ?? false;
+
     notifyListeners();
   }
 

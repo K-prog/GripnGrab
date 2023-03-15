@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
 import 'package:gripngrab/utils/colors.dart';
+import 'package:gripngrab/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -126,13 +127,19 @@ class _LoginPageState extends State<LoginPage> {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
+                                if (phoneController.text.isNotEmpty &&
+                                    phoneController.text.length == 10) {
                                   sendPhoneNumber();
+                                } else {
+                                  showSnackBar(
+                                      context: context,
+                                      content:
+                                          'Phone number should be of 10 digits');
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                   shape: const StadiumBorder()),
-                              child: authProvider.isLoading == true
+                              child: authProvider.isLoading
                                   ? Container(
                                       height: 25,
                                       alignment: Alignment.center,

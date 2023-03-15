@@ -77,3 +77,40 @@ class SessionBooked {
     };
   }
 }
+
+class SessionHistory {
+  DateTime bookedAt;
+  String timeFrame;
+  SessionType sessionType;
+  bool canceled;
+  String sessionId;
+
+  SessionHistory({
+    required this.bookedAt,
+    required this.canceled,
+    required this.sessionType,
+    required this.sessionId,
+    required this.timeFrame,
+  });
+  // from json
+  factory SessionHistory.fromJson(Map<String, dynamic> json) {
+    return SessionHistory(
+      timeFrame: json['timeFrame'],
+      sessionId: json['sessionId'],
+      sessionType: (json['sessionType'] as String).toEnum(),
+      canceled: json['canceled'],
+      bookedAt: DateTime.fromMillisecondsSinceEpoch(json['bookedAt']),
+    );
+  }
+
+  // toJson
+  Map<String, dynamic> toJson() {
+    return {
+      'timeFrame': timeFrame,
+      'sessionId': sessionId,
+      'sessionType': sessionType.name,
+      'canceled': canceled,
+      'bookedAt': bookedAt.millisecondsSinceEpoch,
+    };
+  }
+}
