@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gripngrab/screens/auth/gender_selection_screen.dart';
-import 'package:gripngrab/thanks_page.dart';
+import 'package:gripngrab/screens/thanks_page.dart';
 
 class EveningSessionPage extends StatefulWidget {
   @override

@@ -6,7 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gripngrab/models/app_model.dart';
 import 'package:gripngrab/models/user_model.dart';
+import 'package:gripngrab/providers/sessions_provider.dart';
 import 'package:gripngrab/screens/auth/otp_screen.dart';
 import 'package:gripngrab/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +21,10 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? _uid;
   String? get uid => _uid;
+  bool _morningBooked = false;
+  bool get morningBooked => _morningBooked;
+  bool _eveningBooked = false;
+  bool get eveningBooked => _eveningBooked;
   UserModel? _userModel;
   UserModel? get userModel => _userModel;
   File? _selectedUserImage;
@@ -51,7 +57,45 @@ class AuthProvider extends ChangeNotifier {
     _userModel = UserModel.fromJson(
       jsonDecode(ss.getString('userModel') ?? ''),
     );
+    _eveningBooked = ss.getBool('eveningBooked') ?? false;
+    _morningBooked = ss.getBool('morningBooked') ?? false;
     notifyListeners();
+  }
+
+  Future<void> getUserBookingStatus(
+    SessionsProvider sessionsProvider,
+  ) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    QuerySnapshot querySnapshot = await firebaseFirestore
+        .collectionGroup('slots')
+        .where('bookedBy', isEqualTo: userModel!.id)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      SessionBooked sessionBooked =
+          SessionBooked.fromJson(querySnapshot.docs[0].data() as dynamic);
+      DocumentSnapshot snapshot = await firebaseFirestore
+          .collection('sessions')
+          .doc(sessionBooked.timeFrameId)
+          .get();
+
+      if (snapshot.exists) {
+        String currentType = snapshot['sessionType'];
+        sessionsProvider.sessionId = snapshot['id'];
+        if (currentType == 'morning') {
+          _morningBooked = true;
+          _eveningBooked = false;
+          await sharedPreferences.setBool('morningBooked', true);
+          await sharedPreferences.setBool('eveningBooked', false);
+        } else {
+          _morningBooked = false;
+          _eveningBooked = true;
+          await sharedPreferences.setBool('morningBooked', false);
+          await sharedPreferences.setBool('eveningBooked', true);
+        }
+        notifyListeners();
+      }
+    }
   }
 
   // sign in with phone
@@ -213,6 +257,33 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // session related concept
+  Future<void> updateUserBookingStatus(
+      {required SessionType sessionType, bool isCanceled = false}) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (isCanceled) {
+      await sharedPreferences.setBool('morningBooked', false);
+      await sharedPreferences.setBool('eveningBooked', false);
+      _morningBooked = false;
+      _eveningBooked = false;
+      notifyListeners();
+    } else {
+      if (sessionType == SessionType.morning) {
+        await sharedPreferences.setBool('morningBooked', true);
+        await sharedPreferences.setBool('eveningBooked', false);
+        _morningBooked = true;
+        _eveningBooked = false;
+        notifyListeners();
+      } else {
+        await sharedPreferences.setBool('eveningBooked', true);
+        await sharedPreferences.setBool('morningBooked', false);
+        _eveningBooked = true;
+        _morningBooked = false;
+        notifyListeners();
+      }
+    }
+  }
+
   void setSignIn() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     s.setBool("isSignedIn", true);
@@ -255,7 +326,7 @@ class AuthProvider extends ChangeNotifier {
     SharedPreferences s = await SharedPreferences.getInstance();
     await firebaseAuth.signOut();
     _isSignedIn = false;
-    s.clear();
+    await s.clear();
     notifyListeners();
   }
 

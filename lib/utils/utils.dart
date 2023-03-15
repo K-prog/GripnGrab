@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+// show snackbar
 void showSnackBar({
   required BuildContext context,
   required String content,
@@ -21,6 +23,47 @@ void showSnackBar({
       ),
     ),
   );
+}
+
+// formatting date
+
+String getDate(
+    {required int startValue, required bool isShort, required bool isMorning}) {
+  DateTime now = DateTime.now();
+  DateTime startTime = DateTime(now.year, now.month, now.day, startValue, 0);
+
+  // Check if the current time is before the start time of the session
+  if (isMorning) {
+    if (now.isBefore(startTime)) {
+      // Show today's date
+      String formattedDate = isShort
+          ? DateFormat('dd MMM').format(now)
+          : DateFormat('dd MMM yyyy').format(now);
+      return formattedDate;
+    } else {
+      // Show tomorrow's date
+      DateTime tomorrow = now.add(const Duration(days: 1));
+      String formattedDate = isShort
+          ? DateFormat('dd MMM').format(tomorrow)
+          : DateFormat('dd MMM yyyy').format(tomorrow);
+      return formattedDate;
+    }
+  } else {
+    if (now.hour < startValue + 12) {
+      // Show today's date
+      String formattedDate = isShort
+          ? DateFormat('dd MMM').format(now)
+          : DateFormat('dd MMM yyyy').format(now);
+      return formattedDate;
+    } else {
+      // Show tomorrow's date
+      DateTime tomorrow = now.add(const Duration(days: 1));
+      String formattedDate = isShort
+          ? DateFormat('dd MMM').format(tomorrow)
+          : DateFormat('dd MMM yyyy').format(tomorrow);
+      return formattedDate;
+    }
+  }
 }
 
 // pick image

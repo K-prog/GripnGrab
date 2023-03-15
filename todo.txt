@@ -1,10 +1,26 @@
+left over: 
+1.  captcha
+2. cloud function 
+3. saving sessionHistory - backend 
+4. -> done showDialog setDate concept.  
+5. resent otp 
+6. precache image android 
+
+
+
+admin app: 
+1. send notification for new users 
+2. view current slot users -> cancel. 
+3. 
+
+
 1. remove the captcha verification in android
 2. done - code for profile photo section in firebase storage
 3. done - look at id creation also user model to add profile photo concept. 
 4. done - textformfield in user input fields. 
 5. done - user birth date ui changes 
 6. on user profile screen 
-7. hello shivansh, string in homepage.dart file 
+7. done - hello shivansh, string in homepage.dart file 
 8. resent otp 
 
 
@@ -14,3 +30,16 @@
 2. done - back button in gender page 
 3. done - next button instead of submit
 4. done - if user exists then look at that flow.
+
+
+As i mentioned these tasks are done: 
+1. coding for uploading profile photo and saving to firebaseStorage
+2. id creation is fixed so now authid provided by firebase would be used to store data related to that user
+3. tetformfield bug
+4. user birth screen 
+5. profile screen has been updated to display profile photo 
+6. hello shivansh in landing page
+7. authentication flow has been corrected 
+
+Tmrw tasks would be: 
+1. coding for sessions and creating the admin app

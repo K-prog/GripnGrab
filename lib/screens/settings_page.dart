@@ -45,92 +45,92 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             physics: const AlwaysScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 40),
-                  Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    child: CachedNetworkImage(
-                      imageUrl: authProvider.userModel!.profilePhoto,
-                      placeholder: (context, url) {
-                        return Container(
-                          height: 150,
-                          width: 150,
-                          decoration: const BoxDecoration(
-                            color: kPrimaryColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  child: CachedNetworkImage(
+                    imageUrl: authProvider.userModel!.profilePhoto,
+                    placeholder: (context, url) {
+                      return Container(
+                        height: 150,
+                        width: 150,
+                        decoration: const BoxDecoration(
+                          color: kPrimaryColor,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/avatar.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                    imageBuilder: (context, imageProvider) {
+                      return SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: Container(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage('assets/images/avatar.png'),
+                              image: imageProvider,
                               fit: BoxFit.cover,
                             ),
                           ),
-                        );
-                      },
-                      imageBuilder: (context, imageProvider) {
-                        return SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                              border: Border.all(color: Colors.white, width: 3),
-                            ),
+                        ),
+                      );
+                    },
+                    errorWidget: (context, imageProvider, error) {
+                      return Container(
+                        height: 150,
+                        width: 150,
+                        decoration: const BoxDecoration(
+                          color: kPrimaryColor,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/avatar.png'),
+                            fit: BoxFit.cover,
                           ),
-                        );
-                      },
-                      errorWidget: (context, imageProvider, error) {
-                        return Container(
-                          height: 150,
-                          width: 150,
-                          decoration: const BoxDecoration(
-                            color: kPrimaryColor,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/avatar.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 40.0),
-                  buildItem('Name:',
-                      '${authProvider.userModel!.firstName} ${authProvider.userModel!.lastName}'),
-                  buildItem('Number:', authProvider.userModel!.phoneNumber),
-                  buildItem(
-                    'Membership:',
-                    authProvider.userModel!.membershipActivated.toString(),
-                  ),
-                  const SizedBox(height: 50),
-                  ElevatedButton(
-                    child: const Text(
-                      "Logout",
-                      style: TextStyle(
-                          color: Color(0xFF1C1C1E),
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15),
-                    ),
-                    onPressed: () {
-                      authProvider.userSignOut();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
                         ),
                       );
                     },
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 40.0),
+                buildItem('Name:',
+                    '${authProvider.userModel!.firstName} ${authProvider.userModel!.lastName}'),
+                buildItem('Number:',
+                    authProvider.userModel!.phoneNumber.replaceAll('+91', '')),
+                buildItem(
+                  'Membership:',
+                  authProvider.userModel!.membershipActivated
+                      ? 'Active'
+                      : 'Inactive',
+                ),
+                const SizedBox(height: 50),
+                ElevatedButton(
+                  child: const Text(
+                    "Logout",
+                    style: TextStyle(
+                        color: Color(0xFF1C1C1E),
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15),
+                  ),
+                  onPressed: () {
+                    authProvider.userSignOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -141,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget buildItem(String title, String content) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -152,15 +152,19 @@ class _SettingsPageState extends State<SettingsPage> {
               fontWeight: FontWeight.bold,
               fontFamily: 'Montserrat',
             ),
+            maxLines: 1,
           ),
+          const SizedBox(height: 10),
           Text(
             content,
             style: const TextStyle(
-              color: Color(0xFFBACBD3),
+              color: Colors.white,
               fontSize: 17.0,
               fontWeight: FontWeight.bold,
               fontFamily: 'Montserrat',
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

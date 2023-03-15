@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gripngrab/providers/sessions_provider.dart';
 import 'package:gripngrab/screens/auth/user_name_screen.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
 import 'package:gripngrab/screens/mybottom_bar.dart';
@@ -18,6 +19,7 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   String? otp;
   late AuthProvider authProvider;
+  late SessionsProvider sessionsProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +205,7 @@ class _OtpScreenState extends State<OtpScreen> {
   void verifyOtp(
       {required BuildContext context, required String userOtp}) async {
     authProvider = Provider.of<AuthProvider>(context, listen: false);
+    sessionsProvider = Provider.of<SessionsProvider>(context, listen: false);
     authProvider.setLoading(isLoading: true);
     authProvider.verifyOtp(
       context: context,
@@ -213,22 +216,30 @@ class _OtpScreenState extends State<OtpScreen> {
           if (value == true) {
             // user exists
             print('user exists');
+
             authProvider
                 .getUserDataFromFirestore(
                     authProvider.firebaseAuth.currentUser!.uid)
-                .then((value) => authProvider
-                        .saveDataToSP()
-                        .then((value) => authProvider.setSignIn())
-                        .whenComplete(() {
-                      authProvider.setLoading(isLoading: false);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const MyBottomBar(selectedIndex: 0),
-                        ),
-                      );
-                    }));
+                .then(
+                  (value) =>
+                      authProvider.getUserBookingStatus(sessionsProvider).then(
+                            (value) => authProvider
+                                .saveDataToSP()
+                                .then((value) => authProvider.setSignIn())
+                                .whenComplete(
+                              () {
+                                authProvider.setLoading(isLoading: false);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MyBottomBar(selectedIndex: 0),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                );
           } else {
             // new user
             print('new user');

@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "152880036058-hr8sjbe6hskf74k0aqjjstv75el9okpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gripngrab",
+            "certificate_hash": "2719f076dea149d6be3f4e58ed85330b3e3d36b7"
+          }
+        },
+        {
+          "client_id": "152880036058-kg0jh00cl1d076k8e2i62ciqlc359ojr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gripngrab",
+            "certificate_hash": "94c7af7e69a3acd5a93ed605b76262c7ccc1b865"
+          }
+        },
+        {
           "client_id": "152880036058-df2v80ilqc7cnq8kt9e3m8082i89p6lm.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +45,13 @@
             {
               "client_id": "152880036058-df2v80ilqc7cnq8kt9e3m8082i89p6lm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "152880036058-vn1fphm0kk80cnsjgvh7tbvrlop48eoi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gripngrab"
+              }
             }
           ]
         }
