@@ -16,21 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController phoneController = TextEditingController();
   late AuthProvider authProvider;
-  final ImageProvider loginImage = const AssetImage(
-    'assets/images/loginimg.png',
-  );
-
-  void precacheBackground() {
-    precacheImage(loginImage, context);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      precacheBackground();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +43,8 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Image(
-                            image: loginImage,
+                            image:
+                                const AssetImage('assets/images/loginimg.png'),
                             fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
                           ),
