@@ -3,9 +3,9 @@ left over:
 2. cloud function 
 3. -> done saving sessionHistory - backend 
 4. -> done showDialog setDate concept.  
-5. resent otp 
-6. precache image android 
-7. app icon
+5. -> done resent otp 
+6. -> precache image android 
+7. -> app icon
 
 
 

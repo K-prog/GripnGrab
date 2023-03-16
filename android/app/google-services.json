@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:686419843702:android:45ab25f98ec9e7f6339d57",
+        "mobilesdk_app_id": "1:686419843702:android:d4d437d2eb4365f9339d57",
         "android_client_info": {
-          "package_name": "com.example.gripngrab"
+          "package_name": "in.gripngrab.gripngrabapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "686419843702-7caris5dqin32ul44a3gb03l58td6ps3.apps.googleusercontent.com",
+          "client_id": "686419843702-0i1l0lnjj2vda8igtocvubqk35t1eua7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.gripngrab",
+            "package_name": "in.gripngrab.gripngrabapp",
             "certificate_hash": "f3ea1114181e9a954a1bffd45d9c83a00c853b8f"
           }
         },

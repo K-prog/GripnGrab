@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gripngrab">
+    package="in.gripngrab.gripngrabapp">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- For photo library access  -->
@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
 
    <application
-        android:label="gripngrab"
+        android:label="GripnGrab"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

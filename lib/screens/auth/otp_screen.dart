@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gripngrab/providers/sessions_provider.dart';
 import 'package:gripngrab/screens/auth/user_name_screen.dart';
@@ -9,8 +11,8 @@ import 'package:provider/provider.dart';
 import 'login_page.dart';
 
 class OtpScreen extends StatefulWidget {
-  final String verificationId;
-  const OtpScreen({super.key, required this.verificationId});
+  final String phoneNumber;
+  const OtpScreen({super.key, required this.phoneNumber});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -20,10 +22,33 @@ class _OtpScreenState extends State<OtpScreen> {
   String? otp;
   late AuthProvider authProvider;
   late SessionsProvider sessionsProvider;
+  Timer? _timer;
+  int counter = 30;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(() {
+        if (counter == 0) {
+          timer.cancel();
+        } else {
+          counter--;
+        }
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     authProvider = Provider.of<AuthProvider>(context, listen: true);
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.push(
@@ -106,62 +131,6 @@ class _OtpScreenState extends State<OtpScreen> {
                     onPressed: otp != null
                         ? () => verifyOtp(context: context, userOtp: otp!)
                         : null,
-                    // onPressed: () async {
-                    //   try {
-                    //     PhoneAuthCredential credential =
-                    //         PhoneAuthProvider.credential(
-                    //             verificationId: LoginPage.verify,
-                    //             smsCode: code);
-
-                    //     // Sign the user in (or link) with the credential
-                    //     User? user =
-                    //         (await auth.signInWithCredential(credential))
-                    //             .user;
-                    //     if (user != null) {
-                    //       String _uid = user.uid;
-                    //       print(ap.checkExistingUser());
-                    //       ap.checkExistingUser().then((value) async {
-                    //         if (value) {
-                    //           ap
-                    //               .getDataFromFirestore("membershipStatus")
-                    //               .then((status) async {
-                    //             if (status.toLowerCase() == "inactive") {
-                    //               ap.setMembershipStatus(false);
-                    //             } else if (status.toLowerCase() == "active") {
-                    //               ap.setMembershipStatus(true);
-                    //             } else {
-                    //               ap.setMembershipStatus(false);
-                    //               // Toast unable to fetch membership status
-                    //             }
-                    //           });
-                    //           Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //               builder: (context) => LandingPage(),
-                    //             ),
-                    //           );
-                    //         } else {
-                    //           ap.setMembershipStatus(false);
-                    //           Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //               builder: (context) => InputScreen(),
-                    //             ),
-                    //           );
-                    //         }
-                    //       });
-                    //     }
-                    //   } catch (e) {
-                    //     var snackBar = SnackBar(
-                    //         content: Text('Wrong OTP',
-                    //             style: TextStyle(
-                    //                 fontFamily: 'Montserrat',
-                    //                 fontSize: 15,
-                    //                 fontWeight: FontWeight.bold)));
-                    //     // Step 3
-                    //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    //   }
-                    // },
                     child: authProvider.isLoading == true
                         ? Container(
                             height: 25,
@@ -177,6 +146,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 const SizedBox(height: 10),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
                       onPressed: () {
@@ -191,7 +161,22 @@ class _OtpScreenState extends State<OtpScreen> {
                         "Edit Phone Number ?",
                         style: TextStyle(color: Colors.white),
                       ),
-                    )
+                    ),
+                    _timer != null && _timer!.isActive
+                        ? Text(
+                            '00:${counter.toString().padLeft(2, '0')}',
+                            style: const TextStyle(color: Colors.white),
+                          )
+                        : TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                            ),
+                            onPressed: () => authProvider.signInWithPhone(
+                                context: context,
+                                phoneNumber: widget.phoneNumber,
+                                resend: true),
+                            child: const Text('Resent Otp'),
+                          )
                   ],
                 )
               ],
@@ -209,7 +194,7 @@ class _OtpScreenState extends State<OtpScreen> {
     authProvider.setLoading(isLoading: true);
     authProvider.verifyOtp(
       context: context,
-      verificationId: widget.verificationId,
+      verificationId: authProvider.verificationId!,
       userOtp: userOtp,
       onSuccess: () async {
         await authProvider.checkExistingUser().then((value) async {

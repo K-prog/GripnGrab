@@ -1,4 +1,4 @@
-package com.example.gripngrab
+package `in`.gripngrab.gripngrabapp
 
 import io.flutter.embedding.android.FlutterActivity
 

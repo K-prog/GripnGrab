@@ -32,6 +32,8 @@ class AuthProvider extends ChangeNotifier {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  String? _verificationId;
+  String? get verificationId => _verificationId;
 
   AuthProvider() {
     checkSignIn();
@@ -39,6 +41,11 @@ class AuthProvider extends ChangeNotifier {
   }
   set settinguserModel(UserModel? userModel) {
     _userModel = userModel;
+    notifyListeners();
+  }
+
+  set verificationCode(String id) {
+    _verificationId = id;
     notifyListeners();
   }
 
@@ -119,6 +126,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signInWithPhone({
     required BuildContext context,
     required String phoneNumber,
+    bool resend = false,
   }) async {
     try {
       await firebaseAuth.verifyPhoneNumber(
@@ -133,14 +141,24 @@ class AuthProvider extends ChangeNotifier {
                 content:
                     'Phone number is too long, please enter it in correct way.',
               );
+            } else {
+              showSnackBar(context: context, content: error.message.toString());
             }
           },
           codeSent: ((String verificationId, forceResendingToken) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => OtpScreen(verificationId: verificationId),
-              ),
-            );
+            _verificationId = verificationId;
+            if (resend) {
+              showSnackBar(
+                context: context,
+                content: 'Otp code resent to your phone number',
+              );
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => OtpScreen(phoneNumber: phoneNumber),
+                ),
+              );
+            }
           }),
           codeAutoRetrievalTimeout: (verificationId) {});
       _isLoading = false;

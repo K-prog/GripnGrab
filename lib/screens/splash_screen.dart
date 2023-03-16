@@ -22,7 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     authProvider = Provider.of<AuthProvider>(context, listen: false);
     sessionsProvider = Provider.of<SessionsProvider>(context, listen: false);
-    Timer(const Duration(milliseconds: 5000), () {
+    Timer(const Duration(milliseconds: 5000), () => navigateToNextScreen());
+  }
+
+  void navigateToNextScreen() async {
+    await precacheImage(const AssetImage('assets/images/loginimg.png'), context)
+        .whenComplete(() {
       if (authProvider.isSignedIn) {
         authProvider.setUserModel();
         sessionsProvider.setSessionId();
