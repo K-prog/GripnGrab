@@ -25,12 +25,11 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       authProvider = Provider.of<AuthProvider>(context, listen: false);
       sessionsProvider = Provider.of<SessionsProvider>(context, listen: false);
       authProvider.getUserBookingStatus(sessionsProvider);
-      authProvider.getMembershipStatus();
-      authProvider.setUserModel();
+      authProvider.saveDataToSP();
     });
   }
 
@@ -220,68 +219,74 @@ class _LandingPageState extends State<LandingPage> {
         colorFilter: authProvider.eveningBooked == true
             ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
             : const ColorFilter.mode(Colors.transparent, BlendMode.color),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            if (authProvider.userModel!.membershipActivated) {
-              if (authProvider.eveningBooked == false) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MorningSession()),
-                );
-              } else {
-                showSnackBar(
-                  context: context,
-                  content:
-                      'Please cancel evening session first to book morning session',
-                );
-              }
-            } else {
-              showSnackBar(
-                  context: context,
-                  content:
-                      'Please activate your membership to book GripnGrab morning sessions');
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2E),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/images/morning.png',
-                  height: 95,
-                  width: 95,
+        child: FutureBuilder(
+          future: authProvider.getMembershipStatusOnline(),
+          builder: (context, snapshot) {
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                if (snapshot.data == true) {
+                  if (authProvider.eveningBooked == false) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MorningSession()),
+                    );
+                  } else {
+                    showSnackBar(
+                      context: context,
+                      content:
+                          'Please cancel evening session first to book morning session',
+                    );
+                  }
+                } else {
+                  showSnackBar(
+                      context: context,
+                      content:
+                          'Please activate your membership to book GripnGrab morning sessions');
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2C2C2E),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                authProvider.morningBooked
-                    ? ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MorningSession()),
-                          );
-                        },
-                        child: const Text('Cancel Session'))
-                    : Text(
-                        '7:00 A.M - 12:00 P.M',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Montserrat',
-                          fontWeight: authProvider.morningBooked
-                              ? FontWeight.bold
-                              : FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      )
-              ],
-            ),
-          ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'assets/images/morning.png',
+                      height: 95,
+                      width: 95,
+                    ),
+                    authProvider.morningBooked
+                        ? ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MorningSession()),
+                              );
+                            },
+                            child: const Text('Cancel Session'))
+                        : Text(
+                            '7:00 A.M - 12:00 P.M',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: authProvider.morningBooked
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          )
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -294,68 +299,73 @@ class _LandingPageState extends State<LandingPage> {
         colorFilter: authProvider.morningBooked == true
             ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
             : const ColorFilter.mode(Colors.transparent, BlendMode.color),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            if (authProvider.userModel!.membershipActivated) {
-              if (authProvider.morningBooked == false) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const EveningSession()),
-                );
-              } else {
-                showSnackBar(
-                  context: context,
-                  content:
-                      'Please cancel morning session first to book evening session',
-                );
-              }
-            } else {
-              showSnackBar(
-                  context: context,
-                  content:
-                      'Please activate your membership to book GripnGrab evening sessions');
-            }
+        child: FutureBuilder(
+          future: authProvider.getMembershipStatusOnline(),
+          builder: (context, snapshot) {
+            return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  if (snapshot.data == true) {
+                    if (authProvider.morningBooked == false) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EveningSession()),
+                      );
+                    } else {
+                      showSnackBar(
+                        context: context,
+                        content:
+                            'Please cancel morning session first to book evening session',
+                      );
+                    }
+                  } else {
+                    showSnackBar(
+                        context: context,
+                        content:
+                            'Please activate your membership to book GripnGrab evening sessions');
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2C2C2E),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset(
+                        'assets/images/evening.png',
+                        height: 95,
+                        width: 95,
+                      ),
+                      authProvider.eveningBooked
+                          ? ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EveningSession()),
+                                );
+                              },
+                              child: const Text('Cancel Session'))
+                          : Text(
+                              '4:00 P.M - 10:00 P.M',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: authProvider.eveningBooked
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                              ),
+                            )
+                    ],
+                  ),
+                ));
           },
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2E),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/images/evening.png',
-                  height: 95,
-                  width: 95,
-                ),
-                authProvider.eveningBooked
-                    ? ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EveningSession()),
-                          );
-                        },
-                        child: const Text('Cancel Session'))
-                    : Text(
-                        '4:00 P.M - 10:00 P.M',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: authProvider.eveningBooked
-                              ? FontWeight.bold
-                              : FontWeight.w500,
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                        ),
-                      )
-              ],
-            ),
-          ),
         ),
       ),
     );

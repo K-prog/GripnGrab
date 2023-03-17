@@ -1,7 +1,10 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-admin.initializeApp();
-
+const serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+// scheduling notification
 exports.resetAvailableSlots = functions.pubsub
   .schedule("0 * * * *")
   .timeZone("Asia/Kolkata")
@@ -49,3 +52,34 @@ exports.resetAvailableSlots = functions.pubsub
       console.error("Error resetting available slots:", error);
     }
   });
+
+
+// sending notification on new users
+exports.sendNotificationOnUserCreate = functions.firestore
+    .document('users/{userId}')
+    .onCreate(async (snap, context) => {
+        // Get the first and last name of the new user
+        const userData = snap.data();
+        const firstName = userData.firstName;
+        const lastName = userData.lastName;
+        
+        // Get the FCM token of the admin from the admin collection
+        const adminDoc = await admin.firestore()
+            .collection('admin')
+            .doc('adminDoc')
+            .get();
+        const adminData = adminDoc.data();
+        const adminFcmToken = adminData.fcmToken;
+        
+        // Construct the notification message
+        const message = {
+            notification: {
+                title: 'New User Added',
+                body: `${firstName} ${lastName} has been added to the app.`
+            },
+            token: adminFcmToken
+        };
+        
+        // Send the notification message using the Firebase Cloud Messaging API
+        await admin.messaging().send(message);
+    });

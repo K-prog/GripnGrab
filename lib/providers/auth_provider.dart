@@ -69,18 +69,17 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getMembershipStatusOnline() async {
+  Future<bool> getMembershipStatusOnline() async {
     // updating user membership also
-    await firebaseFirestore
-        .collection('users')
-        .doc(userModel!.id)
-        .get()
-        .then((value) {
-      if (value.exists) {
-        userModel!.membershipActivated = value['membershipActivated'];
-        notifyListeners();
-      }
-    });
+    DocumentSnapshot documentSnapshot =
+        await firebaseFirestore.collection('users').doc(userModel!.id).get();
+    if (documentSnapshot.exists) {
+      userModel!.membershipActivated = documentSnapshot['membershipActivated'];
+
+      return documentSnapshot['membershipActivated'] as bool;
+    } else {
+      return false;
+    }
   }
 
   Future<void> getUserBookingStatus(
@@ -331,12 +330,12 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> getMembershipStatus() async {
-    final SharedPreferences s = await SharedPreferences.getInstance();
-    bool status = s.getBool("isMember") ?? false;
-    notifyListeners();
-    return status;
-  }
+  // Future<bool> getMembershipStatus() async {
+  //   final SharedPreferences s = await SharedPreferences.getInstance();
+  //   bool status = s.getBool("isMember") ?? false;
+  //   notifyListeners();
+  //   return status;
+  // }
 
   Future<bool> checkExistingUser() async {
     DocumentSnapshot snapshot =
