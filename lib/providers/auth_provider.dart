@@ -69,6 +69,20 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getMembershipStatusOnline() async {
+    // updating user membership also
+    await firebaseFirestore
+        .collection('users')
+        .doc(userModel!.id)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        userModel!.membershipActivated = value['membershipActivated'];
+        notifyListeners();
+      }
+    });
+  }
+
   Future<void> getUserBookingStatus(
     SessionsProvider sessionsProvider,
   ) async {
@@ -77,6 +91,7 @@ class AuthProvider extends ChangeNotifier {
         .collectionGroup('slots')
         .where('bookedBy', isEqualTo: userModel!.id)
         .get();
+
     if (querySnapshot.docs.isNotEmpty) {
       DocumentSnapshot snapshot = await firebaseFirestore
           .collection('sessions')
@@ -96,19 +111,14 @@ class AuthProvider extends ChangeNotifier {
         await sharedPreferences.setBool('eveningBooked', true);
       }
       notifyListeners();
+    } else {
+      sessionsProvider.sessionId = '';
+      await sharedPreferences.setBool('morningBooked', false);
+      await sharedPreferences.setBool('eveningBooked', false);
+      _morningBooked = false;
+      _eveningBooked = false;
+      notifyListeners();
     }
-
-    // updating user membership also
-    await firebaseFirestore
-        .collection('users')
-        .doc(userModel!.id)
-        .get()
-        .then((value) {
-      if (value.exists) {
-        userModel!.membershipActivated = value['membershipActivated'];
-        notifyListeners();
-      }
-    });
   }
 
   // sign in with phone
