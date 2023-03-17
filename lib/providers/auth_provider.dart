@@ -128,6 +128,11 @@ class AuthProvider extends ChangeNotifier {
     bool resend = false,
   }) async {
     try {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => OtpScreen(phoneNumber: phoneNumber),
+        ),
+      );
       await firebaseAuth.verifyPhoneNumber(
           verificationCompleted: (PhoneAuthCredential phoneAuthCreds) async {
             await firebaseAuth.signInWithCredential(phoneAuthCreds);
@@ -150,12 +155,6 @@ class AuthProvider extends ChangeNotifier {
               showSnackBar(
                 context: context,
                 content: 'Otp code resent to your phone number',
-              );
-            } else {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => OtpScreen(phoneNumber: phoneNumber),
-                ),
               );
             }
           }),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:gripngrab/providers/mybottom_bar_provider.dart';
+import 'package:gripngrab/screens/auth/user_name_screen.dart';
 import 'package:gripngrab/screens/landing_page.dart';
 import 'package:gripngrab/screens/settings_page.dart';
 import 'package:gripngrab/utils/colors.dart';

@@ -38,44 +38,37 @@ class _UserNameScreenState extends State<UserNameScreen> {
   void storeUserData() async {
     authProvider = Provider.of<AuthProvider>(context, listen: false);
     DateTime timeStamp = DateTime.now();
-    if (image != null) {
-      authProvider.settinguserModel = UserModel(
-        id: '',
-        phoneNumber: '',
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        gender: '',
-        createdAt: timeStamp,
-        profilePhoto: '',
-        dateOfBirth: '',
-        membershipActivated: false,
-      );
-      authProvider.setCurrentImage = image;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const GenderSelectionScreen(),
-        ),
-      );
-      // authProvider.saveUserDataToFirebase(
-      //     context: context,
-      //     userModel: userModel,
-      //     profilePic: image!,
-      //     onSuccess: () {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => const GenderSelectionScreen(),
-      //         ),
-      //       );
-      //     });
-    } else {
-      showSnackBar(
-        context: context,
-        content:
-            'Profile photo is required for creating your account with GripnGrab',
-      );
-    }
+    authProvider.settinguserModel = UserModel(
+      id: '',
+      phoneNumber: '',
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+      gender: '',
+      createdAt: timeStamp,
+      profilePhoto: '',
+      dateOfBirth: '',
+      membershipActivated: false,
+    );
+
+    authProvider.setCurrentImage = image;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GenderSelectionScreen(),
+      ),
+    );
+    // authProvider.saveUserDataToFirebase(
+    //     context: context,
+    //     userModel: userModel,
+    //     profilePic: image!,
+    //     onSuccess: () {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //           builder: (context) => const GenderSelectionScreen(),
+    //         ),
+    //       );
+    //     });
   }
 
   @override
@@ -96,10 +89,29 @@ class _UserNameScreenState extends State<UserNameScreen> {
                   InkWell(
                     onTap: selectImage,
                     child: image == null
-                        ? const CircleAvatar(
-                            radius: 80,
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),
+                        ? Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const CircleAvatar(
+                                radius: 80,
+                                backgroundImage:
+                                    AssetImage('assets/images/avatar.png'),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 10,
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: kPrimaryColor,
+                                  ),
+                                ),
+                              )
+                            ],
                           )
                         : CircleAvatar(
                             radius: 80,
