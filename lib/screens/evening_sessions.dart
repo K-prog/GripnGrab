@@ -19,6 +19,17 @@ class EveningSession extends StatefulWidget {
 class _EveningSessionState extends State<EveningSession> {
   late SessionsProvider sessionsProvider;
   late AuthProvider authProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      authProvider = Provider.of<AuthProvider>(context, listen: false);
+      sessionsProvider = Provider.of<SessionsProvider>(context, listen: false);
+      authProvider.getUserBookingStatus(sessionsProvider);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     sessionsProvider = Provider.of<SessionsProvider>(context, listen: true);
@@ -89,7 +100,7 @@ class _EveningSessionState extends State<EveningSession> {
                                 ),
                               ),
                               Text(
-                                'Slots',
+                                'Slots Available',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22.0,
@@ -122,9 +133,10 @@ class _EveningSessionState extends State<EveningSession> {
                                     // current booked slot can be canceled here
                                     if (isCurrentSession) {
                                       openDialog(
-                                          context: context,
-                                          sessionsModel: snapshot.data![index],
-                                          isCancel: true);
+                                        context: context,
+                                        sessionsModel: snapshot.data![index],
+                                        isCancel: true,
+                                      );
                                     } else {
                                       // showing snackbar when user clicks on other slot timings.
                                       showSnackBar(
@@ -134,19 +146,17 @@ class _EveningSessionState extends State<EveningSession> {
                                       );
                                     }
                                   } else {
-                                    if (snapshot.data![index].available <= 5 &&
-                                        snapshot.data![index].available > 0) {
+                                    if (snapshot.data![index].available == 0) {
+                                      showSnackBar(
+                                        context: context,
+                                        content: 'No available slots',
+                                      );
+                                    } else {
                                       // here we are booking the session
                                       openDialog(
                                         context: context,
                                         sessionsModel: snapshot.data![index],
                                         isCancel: false,
-                                      );
-                                    } else {
-                                      showSnackBar(
-                                        context: context,
-                                        content:
-                                            'All slots in this session are booked',
                                       );
                                     }
                                   }
@@ -156,8 +166,9 @@ class _EveningSessionState extends State<EveningSession> {
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   decoration: BoxDecoration(
-                                    color: isCurrentSession
-                                        ? const Color.fromARGB(255, 83, 83, 83)
+                                    color: isCurrentSession ||
+                                            snapshot.data![index].available == 0
+                                        ? Colors.white
                                         : const Color(0xFF2C2C2E),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -171,8 +182,13 @@ class _EveningSessionState extends State<EveningSession> {
                                         children: [
                                           Text(
                                             '${snapshot.data![index].timeFrame.split('-')[0]} P.M - ${snapshot.data![index].timeFrame.split('-')[1]} P.M',
-                                            style: const TextStyle(
-                                              color: Colors.white,
+                                            style: TextStyle(
+                                              color: isCurrentSession ||
+                                                      snapshot.data![index]
+                                                              .available ==
+                                                          0
+                                                  ? Colors.black
+                                                  : Colors.white,
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: 'Montserrat',
@@ -187,7 +203,10 @@ class _EveningSessionState extends State<EveningSession> {
                                                 isShort: true,
                                                 isMorning: false),
                                             style: TextStyle(
-                                              color: isCurrentSession
+                                              color: isCurrentSession ||
+                                                      snapshot.data![index]
+                                                              .available ==
+                                                          0
                                                   ? Colors.black
                                                   : Colors.white,
                                               fontSize: 14.0,
@@ -198,9 +217,14 @@ class _EveningSessionState extends State<EveningSession> {
                                         ],
                                       ),
                                       Text(
-                                        '${snapshot.data![index].available}/5',
-                                        style: const TextStyle(
-                                          color: Colors.white,
+                                        '${snapshot.data![index].available}',
+                                        style: TextStyle(
+                                          color: isCurrentSession ||
+                                                  snapshot.data![index]
+                                                          .available ==
+                                                      0
+                                              ? Colors.black
+                                              : Colors.white,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Montserrat',

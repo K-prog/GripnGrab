@@ -29,6 +29,7 @@ class _LandingPageState extends State<LandingPage> {
       authProvider = Provider.of<AuthProvider>(context, listen: false);
       sessionsProvider = Provider.of<SessionsProvider>(context, listen: false);
       authProvider.getUserBookingStatus(sessionsProvider);
+      authProvider.setUserModel();
     });
   }
 

@@ -55,7 +55,7 @@ class _SessionsLoadingScreenState extends State<SessionsLoadingScreen> {
                       ),
                     ),
                     Text(
-                      'Slots',
+                      'Slots Available',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22.0,

@@ -6,6 +6,7 @@ import 'package:gripngrab/screens/auth/user_name_screen.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
 import 'package:gripngrab/screens/mybottom_bar.dart';
 import 'package:gripngrab/utils/colors.dart';
+import 'package:gripngrab/utils/utils.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'login_page.dart';
@@ -24,6 +25,7 @@ class _OtpScreenState extends State<OtpScreen> {
   late SessionsProvider sessionsProvider;
   Timer? _timer;
   int counter = 30;
+  int currentResentCount = 0;
 
   @override
   void initState() {
@@ -48,7 +50,6 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     authProvider = Provider.of<AuthProvider>(context, listen: true);
-
     return WillPopScope(
       onWillPop: () async {
         Navigator.push(
@@ -167,14 +168,30 @@ class _OtpScreenState extends State<OtpScreen> {
                             '00:${counter.toString().padLeft(2, '0')}',
                             style: const TextStyle(color: Colors.white),
                           )
-                        : TextButton(
+                        : ElevatedButton(
                             style: TextButton.styleFrom(
-                              foregroundColor: Colors.white,
+                              foregroundColor: kPrimaryColor,
                             ),
-                            onPressed: () => authProvider.signInWithPhone(
-                                context: context,
-                                phoneNumber: widget.phoneNumber,
-                                resend: true),
+                            onPressed: () {
+                              if (currentResentCount == 3) {
+                                showSnackBar(
+                                  context: context,
+                                  content:
+                                      'Maximum allowed resend otp tries exceeded.',
+                                );
+                              } else {
+                                setState(() {
+                                  counter = 30;
+                                  startTimer();
+                                  currentResentCount++;
+                                });
+                                authProvider.signInWithPhone(
+                                  context: context,
+                                  phoneNumber: widget.phoneNumber,
+                                  resend: true,
+                                );
+                              }
+                            },
                             child: const Text('Resent Otp'),
                           )
                   ],

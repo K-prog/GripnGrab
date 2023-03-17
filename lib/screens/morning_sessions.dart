@@ -21,6 +21,16 @@ class _MorningSessionState extends State<MorningSession> {
   late AuthProvider authProvider;
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      authProvider = Provider.of<AuthProvider>(context, listen: false);
+      sessionsProvider = Provider.of<SessionsProvider>(context, listen: false);
+      authProvider.getUserBookingStatus(sessionsProvider);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     sessionsProvider = Provider.of<SessionsProvider>(context, listen: true);
     authProvider = Provider.of<AuthProvider>(context, listen: true);
@@ -83,16 +93,16 @@ class _MorningSessionState extends State<MorningSession> {
                                 'Time',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 22.0,
+                                  fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Montserrat',
                                 ),
                               ),
                               Text(
-                                'Slots',
+                                'Slots Available',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 22.0,
+                                  fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Montserrat',
                                 ),
@@ -108,6 +118,7 @@ class _MorningSessionState extends State<MorningSession> {
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
                               bool isCurrentSession = false;
+
                               if (sessionsProvider.currentSessionId != null &&
                                   sessionsProvider
                                       .currentSessionId!.isNotEmpty &&
@@ -115,6 +126,7 @@ class _MorningSessionState extends State<MorningSession> {
                                       sessionsProvider.currentSessionId) {
                                 isCurrentSession = true;
                               }
+
                               return GestureDetector(
                                 behavior: HitTestBehavior.opaque,
                                 onTap: () {
@@ -122,9 +134,10 @@ class _MorningSessionState extends State<MorningSession> {
                                     // current booked slot can be canceled here
                                     if (isCurrentSession) {
                                       openDialog(
-                                          context: context,
-                                          sessionsModel: snapshot.data![index],
-                                          isCancel: true);
+                                        context: context,
+                                        sessionsModel: snapshot.data![index],
+                                        isCancel: true,
+                                      );
                                     } else {
                                       // showing snackbar when user clicks on other slot timings.
                                       showSnackBar(
@@ -134,19 +147,17 @@ class _MorningSessionState extends State<MorningSession> {
                                       );
                                     }
                                   } else {
-                                    if (snapshot.data![index].available <= 5 &&
-                                        snapshot.data![index].available > 0) {
+                                    if (snapshot.data![index].available == 0) {
+                                      showSnackBar(
+                                        context: context,
+                                        content: 'No available slots',
+                                      );
+                                    } else {
                                       // here we are booking the session
                                       openDialog(
                                         context: context,
                                         sessionsModel: snapshot.data![index],
                                         isCancel: false,
-                                      );
-                                    } else {
-                                      showSnackBar(
-                                        context: context,
-                                        content:
-                                            'All slots in this session are booked',
                                       );
                                     }
                                   }
@@ -156,7 +167,8 @@ class _MorningSessionState extends State<MorningSession> {
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   decoration: BoxDecoration(
-                                    color: isCurrentSession
+                                    color: isCurrentSession ||
+                                            snapshot.data![index].available == 0
                                         ? Colors.white
                                         : const Color(0xFF2C2C2E),
                                     borderRadius: BorderRadius.circular(10.0),
@@ -172,7 +184,10 @@ class _MorningSessionState extends State<MorningSession> {
                                           Text(
                                             '${snapshot.data![index].timeFrame.split('-')[0]} A.M - ${snapshot.data![index].timeFrame.split('-')[1]} ${snapshot.data![index].timeFrame.split('-')[1] == '12' ? 'P.M' : 'A.M'}',
                                             style: TextStyle(
-                                              color: isCurrentSession
+                                              color: isCurrentSession ||
+                                                      snapshot.data![index]
+                                                              .available ==
+                                                          0
                                                   ? Colors.black
                                                   : Colors.white,
                                               fontSize: 20.0,
@@ -189,7 +204,10 @@ class _MorningSessionState extends State<MorningSession> {
                                                 isShort: true,
                                                 isMorning: true),
                                             style: TextStyle(
-                                              color: isCurrentSession
+                                              color: isCurrentSession ||
+                                                      snapshot.data![index]
+                                                              .available ==
+                                                          0
                                                   ? Colors.black
                                                   : Colors.white,
                                               fontSize: 14.0,
@@ -200,9 +218,12 @@ class _MorningSessionState extends State<MorningSession> {
                                         ],
                                       ),
                                       Text(
-                                        '${snapshot.data![index].available}/5',
+                                        '${snapshot.data![index].available}',
                                         style: TextStyle(
-                                          color: isCurrentSession
+                                          color: isCurrentSession ||
+                                                  snapshot.data![index]
+                                                          .available ==
+                                                      0
                                               ? Colors.black
                                               : Colors.white,
                                           fontSize: 20.0,

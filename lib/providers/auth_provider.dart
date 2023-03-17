@@ -78,29 +78,24 @@ class AuthProvider extends ChangeNotifier {
         .where('bookedBy', isEqualTo: userModel!.id)
         .get();
     if (querySnapshot.docs.isNotEmpty) {
-      SessionBooked sessionBooked =
-          SessionBooked.fromJson(querySnapshot.docs[0].data() as dynamic);
       DocumentSnapshot snapshot = await firebaseFirestore
           .collection('sessions')
-          .doc(sessionBooked.timeFrameId)
+          .doc(querySnapshot.docs[0]['timeFrameId'])
           .get();
-
-      if (snapshot.exists) {
-        String currentType = snapshot['sessionType'];
-        sessionsProvider.sessionId = snapshot['id'];
-        if (currentType == 'morning') {
-          _morningBooked = true;
-          _eveningBooked = false;
-          await sharedPreferences.setBool('morningBooked', true);
-          await sharedPreferences.setBool('eveningBooked', false);
-        } else {
-          _morningBooked = false;
-          _eveningBooked = true;
-          await sharedPreferences.setBool('morningBooked', false);
-          await sharedPreferences.setBool('eveningBooked', true);
-        }
-        notifyListeners();
+      String currentType = snapshot['sessionType'];
+      sessionsProvider.sessionId = snapshot['id'];
+      if (currentType == 'morning') {
+        _morningBooked = true;
+        _eveningBooked = false;
+        await sharedPreferences.setBool('morningBooked', true);
+        await sharedPreferences.setBool('eveningBooked', false);
+      } else {
+        _morningBooked = false;
+        _eveningBooked = true;
+        await sharedPreferences.setBool('morningBooked', false);
+        await sharedPreferences.setBool('eveningBooked', true);
       }
+      notifyListeners();
     }
 
     // updating user membership also
@@ -114,12 +109,6 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       }
     });
-    await sharedPreferences.setString(
-      'userModel',
-      jsonEncode(
-        _userModel!.toJson(),
-      ),
-    );
   }
 
   // sign in with phone
