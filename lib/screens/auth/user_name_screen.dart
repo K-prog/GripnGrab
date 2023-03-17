@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gripngrab/models/user_model.dart';
 import 'package:gripngrab/providers/auth_provider.dart';
 import 'package:gripngrab/screens/auth/gender_selection_screen.dart';
 import 'package:gripngrab/utils/colors.dart';
 import 'package:gripngrab/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserNameScreen extends StatefulWidget {
@@ -34,29 +36,43 @@ class _UserNameScreenState extends State<UserNameScreen> {
     super.dispose();
   }
 
+  Future<void> checkImage() async {
+    if (image == null) {
+      ByteData imageData = await rootBundle.load('assets/images/avatar.png');
+      Uint8List bytes = imageData.buffer.asUint8List();
+      final Directory tempDir = await getTemporaryDirectory();
+      final String tempPath = '${tempDir.path}/temp_image.png';
+      final File tempImage = File(tempPath);
+      await tempImage.writeAsBytes(bytes);
+      image = tempImage;
+    }
+  }
+
   // store user data
   void storeUserData() async {
-    authProvider = Provider.of<AuthProvider>(context, listen: false);
-    DateTime timeStamp = DateTime.now();
-    authProvider.settinguserModel = UserModel(
-      id: '',
-      phoneNumber: '',
-      firstName: _firstNameController.text,
-      lastName: _lastNameController.text,
-      gender: '',
-      createdAt: timeStamp,
-      profilePhoto: '',
-      dateOfBirth: '',
-      membershipActivated: false,
-    );
+    await checkImage().whenComplete(() {
+      authProvider = Provider.of<AuthProvider>(context, listen: false);
+      DateTime timeStamp = DateTime.now();
+      authProvider.settinguserModel = UserModel(
+        id: '',
+        phoneNumber: '',
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        gender: '',
+        createdAt: timeStamp,
+        profilePhoto: '',
+        dateOfBirth: '',
+        membershipActivated: false,
+      );
+      authProvider.setCurrentImage = image;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const GenderSelectionScreen(),
+        ),
+      );
+    });
 
-    authProvider.setCurrentImage = image;
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const GenderSelectionScreen(),
-      ),
-    );
     // authProvider.saveUserDataToFirebase(
     //     context: context,
     //     userModel: userModel,
