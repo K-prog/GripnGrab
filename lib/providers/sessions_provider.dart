@@ -74,7 +74,7 @@ class SessionsProvider extends ChangeNotifier {
             .get();
         if (dSnapshot.exists) {
           int currentCount = dSnapshot['available'];
-          if (currentCount < 5 && currentCount >= 0) {
+          if (currentCount < 8 && currentCount >= 0) {
             await firebaseFirestore
                 .collection('sessions')
                 .doc(sessionsModel.id)
@@ -141,7 +141,7 @@ class SessionsProvider extends ChangeNotifier {
           .get();
       if (snapshot.exists) {
         int currentCount = snapshot['available'];
-        if (currentCount > 0 && currentCount <= 5) {
+        if (currentCount > 0 && currentCount <= 8) {
           await firebaseFirestore
               .collection('sessions')
               .doc(sessionsModel.id)
@@ -177,15 +177,12 @@ class SessionsProvider extends ChangeNotifier {
       '8-9',
       '9-10',
       '10-11',
-      '11-12',
     ];
     final eveningList = [
-      '4-5',
       '5-6',
       '6-7',
       '7-8',
       '8-9',
-      '9-10',
     ];
     // adding morning sessions
     for (final timeFrame in morningList) {
@@ -193,7 +190,7 @@ class SessionsProvider extends ChangeNotifier {
           await firebaseFirestore.collection('sessions').add(
                 SessionsModel(
                   id: '',
-                  available: 5,
+                  available: 8,
                   timeFrame: timeFrame,
                   sessionType: SessionType.morning,
                 ).toJson(),
@@ -207,7 +204,7 @@ class SessionsProvider extends ChangeNotifier {
           await firebaseFirestore.collection('sessions').add(
                 SessionsModel(
                   id: '',
-                  available: 5,
+                  available: 8,
                   timeFrame: timeFrame,
                   sessionType: SessionType.evening,
                 ).toJson(),

@@ -62,7 +62,7 @@ class _EveningSessionState extends State<EveningSession> {
                     height: MediaQuery.of(context).size.height * 0.40,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/session.png'),
+                        image: AssetImage('assets/images/entry.png'),
                         fit: BoxFit.cover,
                       ),
                     ),

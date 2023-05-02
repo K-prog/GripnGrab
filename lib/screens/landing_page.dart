@@ -272,7 +272,7 @@ class _LandingPageState extends State<LandingPage> {
                             },
                             child: const Text('Cancel Session'))
                         : Text(
-                            '7:00 A.M - 12:00 P.M',
+                            '7:00 A.M - 11:00 P.M',
                             style: TextStyle(
                               fontSize: 16.0,
                               fontFamily: 'Montserrat',
@@ -352,7 +352,7 @@ class _LandingPageState extends State<LandingPage> {
                               },
                               child: const Text('Cancel Session'))
                           : Text(
-                              '4:00 P.M - 10:00 P.M',
+                              '5:00 P.M - 9:00 P.M',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: authProvider.eveningBooked

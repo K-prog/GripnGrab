@@ -32,7 +32,7 @@ exports.resetAvailableSlots = functions.pubsub
                 return doc.ref.delete();
               })
             );
-            await sessionDoc.ref.update({ available: 5 });
+            await sessionDoc.ref.update({ available: 8 });
           }
         } else if (sessionType === "evening") {
           if (currentHour === startHour + 12) {
@@ -43,7 +43,7 @@ exports.resetAvailableSlots = functions.pubsub
                 return doc.ref.delete();
               })
             );
-            await sessionDoc.ref.update({ available: 5 });
+            await sessionDoc.ref.update({ available: 8 });
           }
         }
       });
